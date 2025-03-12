@@ -77,7 +77,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.vocai.sdk'
             artifactId = 'webcomponent'
-            version = '1.1.8'
+            version = '1.1.9'
 
             afterEvaluate {
                 from components.release
