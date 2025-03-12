@@ -1,0 +1,13 @@
+{
+  "api": {
+    "protocol": "https://",
+    "host": "",
+    "uploadPath": ""
+  },
+  "networkConfig": {
+    "retryOnFailure": true,
+    "timeoutTime": 8000
+  },
+  "defaultPath": "https://apps.voc.ai/live-chat?id=19365&token=6731F71BE4B0187458389512",
+  "autoTitle": false
+}

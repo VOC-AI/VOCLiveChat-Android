@@ -1,0 +1,147 @@
+{
+  "entities": [
+    {
+      "language": "en",
+      "strings": {
+        "key_take_photo": "Take Photo",
+        "key_take_video": "Video",
+        "key_choose_from_gallery": "Gallery",
+        "key_choose_from_file": "File",
+        "key_cancel": "Cancel",
+        "key_permission_deny": "The app's access to the camera and files has been denied. Please go to the settings to grant the necessary permissions and then retry the current function."
+      }
+    },
+    {
+      "language": "cn",
+      "strings": {
+        "key_take_photo": "拍照",
+        "key_take_video": "视频",
+        "key_choose_from_gallery": "相册",
+        "key_choose_from_file": "文件",
+        "key_cancel": "取消",
+        "key_permission_deny": "应用访问相机和文件的权限已被拒绝。请前往设置中授予必要的权限，然后重试当前功能。"
+      }
+    },
+    {
+      "language": "jp",
+      "strings": {
+        "key_take_photo": "写真を撮る",
+        "key_take_video": "ビデオ",
+        "key_choose_from_gallery": "ギャラリーから選ぶ",
+        "key_choose_from_file": "ファイルから選ぶ",
+        "key_cancel": "キャンセル",
+        "key_permission_deny": "アプリのカメラとファイルへのアクセス権限が拒否されました。設定で必要な権限を付与してから、現在の機能を再試行してください。"
+      }
+    },
+    {
+      "language": "fr",
+      "strings": {
+        "key_take_photo": "Prendre une photo",
+        "key_take_video": "Vidéo",
+        "key_choose_from_gallery": "Galerie",
+        "key_choose_from_file": "Fichier",
+        "key_cancel": "Annuler",
+        "key_permission_deny": "L'accès de l'application à la caméra et aux fichiers a été refusé. Veuillez accéder aux paramètres pour accorder les autorisations nécessaires, puis réessayer la fonction actuelle."
+      }
+    },
+    {
+      "language": "de",
+      "strings": {
+        "key_take_photo": "Foto machen",
+        "key_take_video": "Video",
+        "key_choose_from_gallery": "Galerie auswählen",
+        "key_choose_from_file": "Datei auswählen",
+        "key_cancel": "Abbrechen",
+        "key_permission_deny": "Der Zugriff der App auf die Kamera und die Dateien wurde verweigert. Gehen Sie in die Einstellungen, um die erforderlichen Berechtigungen zu erteilen, und versuchen Sie dann die aktuelle Funktion erneut."
+      }
+    },
+    {
+      "language": "pt",
+      "strings": {
+        "key_take_photo": "Tirar uma foto",
+        "key_take_video": "Vídeo",
+        "key_choose_from_gallery": "Galeria",
+        "key_choose_from_file": "Arquivo",
+        "key_cancel": "Cancelar",
+        "key_permission_deny": "O acesso do aplicativo à câmera e aos arquivos foi negado. Vá para as configurações para conceder as permissões necessárias e tente novamente a função atual."
+      }
+    },
+    {
+      "language": "es",
+      "strings": {
+        "key_take_photo": "Tomar una foto",
+        "key_take_video": "Video",
+        "key_choose_from_gallery": "Galería",
+        "key_choose_from_file": "Archivo",
+        "key_cancel": "Cancelar",
+        "key_permission_deny": "El acceso de la aplicación a la cámara y a los archivos ha sido denegado. Vaya a la configuración para otorgar los permisos necesarios y luego vuelva a intentar la función actual."
+      }
+    },
+    {
+      "language": "ja",
+      "strings": {
+        "key_take_photo": "写真を撮る",
+        "key_take_video": "ビデオ",
+        "key_choose_from_gallery": "ギャラリーから選ぶ",
+        "key_choose_from_file": "ファイルから選ぶ",
+        "key_cancel": "キャンセル",
+        "key_permission_deny": "アプリのカメラとファイルへのアクセス権限が拒否されました。設定で必要な権限を付与してから、現在の機能を再試行してください。"
+      }
+    },
+    {
+      "language": "ar",
+      "strings": {
+        "key_take_photo": "التقاط صورة",
+        "key_take_video": "تسجيل فيديو",
+        "key_choose_from_gallery": "من المعرض",
+        "key_choose_from_file": "من الملف",
+        "key_cancel": "إلغاء",
+        "key_permission_deny": "تم رفض إتاحة التطبيق للوصول إلى الكاميرا والملفات. يرجى الذهاب إلى الإعدادات لمنح الإذونات الضرورية ثم إعادة محاولة الوظيفة الحالية."
+      }
+    },
+    {
+      "language": "id",
+      "strings": {
+        "key_take_photo": "Ambil Foto",
+        "key_take_video": "Video",
+        "key_choose_from_gallery": "Galeri",
+        "key_choose_from_file": "File",
+        "key_cancel": "Batal",
+        "key_permission_deny": "Akses aplikasi ke kamera dan file telah ditolak. Silakan pergi ke pengaturan untuk memberikan izin yang diperlukan, lalu coba lagi fungsi saat ini."
+      }
+    },
+    {
+      "language": "fi",
+      "strings": {
+        "key_take_photo": "Ota kuva",
+        "key_take_video": "Video",
+        "key_choose_from_gallery": "Galleria",
+        "key_choose_from_file": "Tiedosto",
+        "key_cancel": "Peruuta",
+        "key_permission_deny": "Sovelluksen käyttöoikeus kameran ja tiedostojen käyttöön on evätty. Mene asetuksiin myöntämään tarvittavat käyttöoikeudet ja yritä sitten uudelleen nykyistä toimintoa."
+      }
+    },
+    {
+      "language": "it",
+      "strings": {
+        "key_take_photo": "Scattare una foto",
+        "key_take_video": "Video",
+        "key_choose_from_gallery": "Galleria",
+        "key_choose_from_file": "File",
+        "key_cancel": "Annulla",
+        "key_permission_deny": "L'accesso dell'applicazione alla fotocamera e ai file è stato negato. Vai alle impostazioni per concedere le autorizzazioni necessarie, quindi riprova la funzione corrente."
+      }
+    },
+    {
+      "language": "pl",
+      "strings": {
+        "key_take_photo": "Zrób zdjęcie",
+        "key_take_video": "Wideo",
+        "key_choose_from_gallery": "Galeria",
+        "key_choose_from_file": "Plik",
+        "key_cancel": "Anuluj",
+        "key_permission_deny": "Dostęp aplikacji do kamery i plików został odrzucony. Przejdź do ustawień, aby udzielić niezbędnych uprawnień, a następnie spróbuj ponownie użyć bieżącej funkcji."
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+pluginManagement {
+    repositories {
+
+        mavenLocal()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        maven { url 'https://www.jitpack.io' }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url 'https://www.jitpack.io' }
+        mavenLocal()
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "WebComponent"
+include ':app'
+include ':webcomponent'
