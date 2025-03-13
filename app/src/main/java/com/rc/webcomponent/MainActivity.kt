@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .clickable {
 //                            boyuan.gao@shulex-tech.com
-                            Vocai.Companion.getInstance().startChat("19365","6731F71BE4B0187458389512", hashMapOf(
+                            Vocai.Companion.getInstance().startChat("19365","6731F71BE4B0187458389512", extra =  hashMapOf(
                                 "email" to "boyuan.gao@shulex-tech.com"
                             ))
                         },
