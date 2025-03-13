@@ -15,11 +15,11 @@
 + step2. Add the dependency
 ```groovy
 	dependencies {
-	        implementation 'com.github.VOC-AI:VOCLiveChat-Android:Tag'
+	        implementation 'com.github.VOC-AI:VOCLiveChat-Android:1.1.9'
 	}
 ```
 
-+ step3. start to chat sdk.
++ step3. launch chat sdk.
 ```groovy
 
 ```

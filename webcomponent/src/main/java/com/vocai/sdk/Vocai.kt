@@ -1,7 +1,6 @@
 package com.vocai.sdk
 
 import android.content.Context
-import androidx.fragment.app.FragmentManager
 
 class Vocai internal constructor(){
 
@@ -34,8 +33,29 @@ class Vocai internal constructor(){
         wrapper.startChat(id, token)
     }
 
-    fun startChat(id: String, token: String, extra: HashMap<String, String>? = null) {
-        wrapper.startChat(id, token, extra)
+    fun startChat(
+        id: String,
+        token: String,
+        chatId: String? = null,
+        email: String? = null,
+        language: String? = null,
+        extra: HashMap<String, String>? = null
+    ) {
+        val appendMap = hashMapOf<String,String>().apply {
+            if(chatId?.isNotEmpty() == true) {
+                this["chatId"] = chatId
+            }
+            if(email?.isNotEmpty() == true) {
+                this["email"] = email
+            }
+            if(language?.isNotEmpty() == true) {
+                this["language"] = language
+            }
+        }
+        val finalMap = extra?.apply {
+            this.putAll(appendMap)
+        } ?: appendMap
+        wrapper.startChat(id, token, finalMap)
     }
 
 }
