@@ -22,5 +22,5 @@
 + step3. launch chat sdk. `chatId`,`email`,`language` is nullable
 ```groovy
     Vocai.Companion.getInstance().init(context,false)
-    Vocai.Companion.getInstance().startChat(id = "19365", token = "6731F71BE4B0187458389512", chatId = "", email = "", language = "", extra = null)
+    Vocai.Companion.getInstance().startChat(id = "", token = "", chatId = "", email = "", language = "", extra = null)
 ```
