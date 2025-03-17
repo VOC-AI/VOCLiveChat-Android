@@ -27,3 +27,4 @@
     Vocai.Companion.getInstance().init(context,false)
     Vocai.Companion.getInstance().startChat(id = "", token = "", chatId = "", email = "", language = "", extra = null)
 ```
+noted: if you AGP is 7.x , please refer to https://github.com/VOC-AI/VOCLiveChat-Android/blob/feature/compat_gradle_7.x/app/src/main/java/com/rc/webcomponent/MainActivity.kt to integration our sdk.
