@@ -267,7 +267,6 @@ class PdfRendererView @JvmOverloads constructor(
         }
         disableScreenshots = typedArray.getBoolean(R.styleable.PdfRendererView_pdfView_disableScreenshots, false)
         applyScreenshotSecurity()
-        isZoomEnabled = typedArray.getBoolean(R.styleable.PdfRendererView_pdfView_enableZoom, true)
         typedArray.recycle()
     }
 
@@ -290,9 +289,14 @@ class PdfRendererView @JvmOverloads constructor(
     }
 
     fun getLoadedBitmaps(): List<Bitmap> {
-        return (0..<totalPageCount).mapNotNull { page ->
-            getBitmapByPage(page)
+        val result = arrayListOf<Bitmap>()
+        for (page in 0 until totalPageCount) {
+            val bitmap = getBitmapByPage(page)
+            if(bitmap!=null) {
+                result.add(bitmap)
+            }
         }
+        return result
     }
 
     fun setZoomEnabled(zoomEnabled: Boolean) {

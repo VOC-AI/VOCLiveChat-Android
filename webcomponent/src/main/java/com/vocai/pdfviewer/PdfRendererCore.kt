@@ -78,7 +78,6 @@ internal class PdfRendererCore(
         cacheManager.addBitmapToCache(pageNo, bitmap)
 
     private fun writeBitmapToCache(pageNo: Int, bitmap: Bitmap) {
-        cacheManager.writeBitmapToCache(pageNo, bitmap)
     }
 
     fun pageExistInCache(pageNo: Int): Boolean =

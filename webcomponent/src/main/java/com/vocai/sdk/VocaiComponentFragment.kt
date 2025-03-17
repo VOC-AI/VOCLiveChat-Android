@@ -13,7 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.rc.webcomponent.R
 import com.vocai.sdk.core.WebComponentHelper
 import com.vocai.sdk.model.StateEvent
 import com.vocai.sdk.viewmodel.WebComponentViewModel

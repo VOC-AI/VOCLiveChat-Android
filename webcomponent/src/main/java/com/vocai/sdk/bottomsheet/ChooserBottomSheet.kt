@@ -27,8 +27,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
-import com.rc.webcomponent.R
 import com.vocai.sdk.LogUtil
+import com.vocai.sdk.R
 import com.vocai.sdk.Vocai
 import com.vocai.sdk.extension.toi18nString
 import com.vocai.sdk.model.FILE_TYPE_OTHER
