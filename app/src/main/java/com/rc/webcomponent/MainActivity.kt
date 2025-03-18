@@ -10,9 +10,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        VocaiSDK.instance.init(this,true)
+        VocaiSDK.getInstance().init(this,true)
         findViewById<TextView>(R.id.mChatStart).setOnClickListener {
-            VocaiSDK.instance.startChat("19365","6731F71BE4B0187458389512", null,null,null,hashMapOf(
+            VocaiSDK.getInstance().startChat("19365","6731F71BE4B0187458389512", null,null,null,hashMapOf(
                 "email" to "boyuan.gao@shulex-tech.com"
             ))
         }
