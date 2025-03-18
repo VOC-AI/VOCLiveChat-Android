@@ -77,7 +77,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.VOC-AI'
             artifactId = 'VOCLiveChat-Android'
-            version = '1.2.0'
+            version = '1.2.2'
 
             afterEvaluate {
                 from components.release
