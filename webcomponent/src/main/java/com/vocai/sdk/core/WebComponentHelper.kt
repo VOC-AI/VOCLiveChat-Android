@@ -3,6 +3,7 @@ package com.vocai.sdk.core
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Looper
 import android.webkit.ConsoleMessage
 import android.webkit.WebChromeClient
@@ -27,27 +28,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.logging.Handler
 
-
-//// 展示一个loading图片
-//window.handleRecieveImageLoading(reserveId)
-//// 展示一个loading视频
-//window.handleRecieveVideoLoading(reserveId)
-//// 展示loading文件 filename非必填
-//window.handleRecieveFileLoading(reserveId, filename?: string)
-//
-//// 发送图片
-//window.handleRecieveImage(url, options)
-//// 发送视频
-//window.handleRecieveVideo(url, options)
-//// 发送文件
-//window.handleRecieveFile(url, options?:{
-//    reserveId?:string;
-//    filename?:string;
-//})
-//
-//// 发送图片样例
-//window.handleRecieveImageLoading('reserve_id') // 展示loading
-//window.handleRecieveImage('xxx', { reserveId: 'reserve_id' }) // 根据reserveId替换loading消息
 internal class WebComponentHelper {
 
     private lateinit var mWebView: WebView
@@ -55,6 +35,7 @@ internal class WebComponentHelper {
 
     var mBottomSheet: ChooserBottomSheet? = null
     var onFileChosen: ((NavigateMessage, String, Int, String?) -> Unit)? = null
+    var onProgressUpdate: ((Int) -> Unit)? = null
 
     companion object {
         const val CUSTOM_USER_AGENT = "Vocai/1.0"
@@ -68,7 +49,9 @@ internal class WebComponentHelper {
         setupWebChromeClient()
         val url = Vocai.getInstance().buildUrl()
         LogUtil.info("start url->$url")
+        this.mWebView.setBackgroundColor(Color.TRANSPARENT)
         this.mWebView.loadUrl(url)
+        onProgressUpdate?.invoke(0)
         setupJsInterface()
         mBottomSheet = ChooserBottomSheet()
     }
@@ -165,10 +148,12 @@ internal class WebComponentHelper {
         mWebView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
+                onProgressUpdate?.invoke(0)
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+                onProgressUpdate?.invoke(100)
             }
 
             override fun onReceivedError(

@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.vocai.sdk.core.WebComponentHelper
 import com.vocai.sdk.model.StateEvent
 import com.vocai.sdk.viewmodel.WebComponentViewModel
+import com.vocai.sdk.widget.LoadingDialogFragment
 import java.io.File
 
 
@@ -24,6 +25,19 @@ internal class VocaiComponentFragment : Fragment() {
     private lateinit var viewModel: WebComponentViewModel
 
     private val componentHelper = WebComponentHelper()
+    private var mLoadingDialog: LoadingDialogFragment? = null
+
+    private fun showLoading() {
+        if(mLoadingDialog == null) {
+            mLoadingDialog = LoadingDialogFragment()
+            mLoadingDialog!!.show(requireActivity().supportFragmentManager, "mActivityLoading")
+        }
+    }
+
+    private fun hideLoading() {
+        mLoadingDialog?.dismiss()
+        mLoadingDialog = null
+    }
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -46,13 +60,20 @@ internal class VocaiComponentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(WebComponentViewModel::class.java)
+        componentHelper.onProgressUpdate = {
+            LogUtil.info("progress->$it")
+            if(it == 0) {
+                showLoading()
+            } else if(it == 100) {
+                hideLoading()
+            }
+        }
         componentHelper.bind(view.findViewById<WebView>(R.id.mWebView))
         componentHelper.onFileChosen = { msg, filePath, type, fileName ->
             viewModel.uploadFile(msg, File(filePath), type, fileName)
         }
         componentHelper.attachToPage(childFragmentManager)
         initObserver()
-//        askNotificationPermission()
     }
 
     fun handleBackPress():Boolean {

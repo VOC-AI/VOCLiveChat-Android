@@ -22,4 +22,9 @@ internal class WebComponentActivity : AppCompatActivity() {
             super.onBackPressed()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Vocai.getInstance().wrapper.onCancel?.invoke()
+    }
+
 }

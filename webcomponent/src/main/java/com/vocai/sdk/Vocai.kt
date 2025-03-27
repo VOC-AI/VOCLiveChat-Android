@@ -2,17 +2,17 @@ package com.vocai.sdk
 
 import android.content.Context
 
-class Vocai internal constructor(){
+class Vocai internal constructor() {
 
     internal val wrapper: VocaiWrapper = VocaiWrapper()
 
     companion object {
 
-        fun getInstance():Vocai = VocaiInstanceHolder.getInstance()
+        fun getInstance(): Vocai = VocaiInstanceHolder.getInstance()
     }
 
-    fun init(context: Context, isDebug: Boolean) {
-        wrapper.init(context, isDebug)
+    fun init(context: Context, isDebug: Boolean, onCancel: (() -> Unit)? = null) {
+        wrapper.init(context, isDebug, onCancel)
     }
 
     fun setUrl(url: String) {
@@ -41,14 +41,14 @@ class Vocai internal constructor(){
         language: String? = null,
         extra: HashMap<String, String>? = null
     ) {
-        val appendMap = hashMapOf<String,String>().apply {
-            if(chatId?.isNotEmpty() == true) {
+        val appendMap = hashMapOf<String, String>().apply {
+            if (chatId?.isNotEmpty() == true) {
                 this["chatId"] = chatId
             }
-            if(email?.isNotEmpty() == true) {
+            if (email?.isNotEmpty() == true) {
                 this["email"] = email
             }
-            if(language?.isNotEmpty() == true) {
+            if (language?.isNotEmpty() == true) {
                 this["language"] = language
             }
         }

@@ -23,6 +23,7 @@ internal class VocaiWrapper {
     internal var isDebugMode: Boolean = false
     internal var isEnabledFirebase: Boolean = false
     internal var language: String = DEFAULT_LANGUAGE
+    internal var onCancel: (() -> Unit)? = null
     internal lateinit var strings: HashMap<String, String>
 
     companion object {
@@ -32,8 +33,9 @@ internal class VocaiWrapper {
         internal const val DEFAULT_LANGUAGE = "en"
     }
 
-    fun init(context: Context, isDebug: Boolean) {
+    fun init(context: Context, isDebug: Boolean, onCancel: (() -> Unit)? = null) {
         this.context = context.applicationContext
+        this.onCancel = onCancel
         config = loader.loadConfig(context)
         isDebugMode = isDebug
         if (isEnabledFirebase) {
@@ -82,7 +84,7 @@ internal class VocaiWrapper {
         var append = ""
         extra?.map {
             if (it.key.isNotEmpty() && it.value.isNotEmpty()) {
-                append += "&${it.key}=${URLEncoder.encode(it.value,"utf-8")}"
+                append += "&${it.key}=${URLEncoder.encode(it.value, "utf-8")}"
             }
         }
         return "$url?disableFileInputModal=true&id=$id&token=$token$append"
