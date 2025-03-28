@@ -47,8 +47,8 @@ dependencies {
     implementation libs.androidx.appcompat
     implementation libs.androidx.core.ktx
     implementation libs.androidx.lifecycle.runtime.ktx
-//    implementation 'com.github.VOC-AI:VOCLiveChat-Android:1.2.3'
-    implementation project(':webcomponent')
+    implementation 'com.github.VOC-AI:VOCLiveChat-Android:1.2.4'
+//    implementation project(':webcomponent')
     implementation platform('com.google.firebase:firebase-bom:32.3.1')
     implementation libs.firebase.messaging.ktx
 }
