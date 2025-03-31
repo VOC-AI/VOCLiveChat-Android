@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("MainActivity","vocai sdk is canceled")
         }
         findViewById<TextView>(R.id.mChatStart).setOnClickListener {
-            VocaiSDK.getInstance().startChat("158","6539C961E4B0C98CA66D2BDE", null,null,null,hashMapOf(
+            VocaiSDK.getInstance().startChat("19365","6731F71BE4B0187458389512", null,null,null,hashMapOf(
                 "email" to "boyuan.gao@shulex-tech.com"
             ))
         }
