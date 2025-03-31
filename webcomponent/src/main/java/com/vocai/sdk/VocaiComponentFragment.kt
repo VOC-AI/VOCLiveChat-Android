@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.vocai.sdk.core.WebComponentHelper
 import com.vocai.sdk.model.StateEvent
 import com.vocai.sdk.viewmodel.WebComponentViewModel
@@ -25,18 +27,14 @@ internal class VocaiComponentFragment : Fragment() {
     private lateinit var viewModel: WebComponentViewModel
 
     private val componentHelper = WebComponentHelper()
-    private var mLoadingDialog: LoadingDialogFragment? = null
+    private var mLoadingIv:ImageView? = null
 
     private fun showLoading() {
-        if(mLoadingDialog == null) {
-            mLoadingDialog = LoadingDialogFragment()
-            mLoadingDialog!!.show(requireActivity().supportFragmentManager, "mActivityLoading")
-        }
+        mLoadingIv?.visibility = View.VISIBLE
     }
 
     private fun hideLoading() {
-        mLoadingDialog?.dismiss()
-        mLoadingDialog = null
+        mLoadingIv?.visibility = View.GONE
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -59,6 +57,10 @@ internal class VocaiComponentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mLoadingIv = view.findViewById(R.id.mProgressIv)
+        mLoadingIv?.let {
+            Glide.with(requireContext()).asGif().load(R.raw.loading).into(it)
+        }
         viewModel = ViewModelProvider(this).get(WebComponentViewModel::class.java)
         componentHelper.onProgressUpdate = {
             LogUtil.info("progress->$it")

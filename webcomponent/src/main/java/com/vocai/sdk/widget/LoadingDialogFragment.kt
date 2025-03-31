@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.Glide
+import com.vocai.sdk.R
 import com.vocai.sdk.databinding.FragmentLoadingBinding
 
 class LoadingDialogFragment() : DialogFragment() {
@@ -20,6 +22,11 @@ class LoadingDialogFragment() : DialogFragment() {
     ): View {
         binding = FragmentLoadingBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Glide.with(requireContext()).asGif().load(R.raw.loading).into(binding.mProgressIv)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
