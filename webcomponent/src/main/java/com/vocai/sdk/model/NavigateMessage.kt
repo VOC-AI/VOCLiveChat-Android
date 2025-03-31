@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 @Keep
 @Serializable
 data class NavigateMessage(
-    val type: String,
-    val data: NavigationInfo
+    val type: String? = null,
+    val data: NavigationInfo? = null
 )

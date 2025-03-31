@@ -20,9 +20,9 @@ class WebComponentRepository {
         LogUtil.info("upload file:$mimeType")
         val body = file.asRequestBody(mimeType?.toMediaType())
         val builder = MultipartBody.Builder()
-        builder.addFormDataPart("botId", message.data.botId.toString())
-        builder.addFormDataPart("chatId", message.data.chatId.orEmpty())
-        builder.addFormDataPart("contact", message.data.contact.orEmpty())
+        builder.addFormDataPart("botId", message.data?.botId.toString())
+        builder.addFormDataPart("chatId", message.data?.chatId.orEmpty())
+        builder.addFormDataPart("contact", message.data?.contact.orEmpty())
         builder.addPart(MultipartBody.Part.createFormData("file", file.name, body))
         return webComponentService.uploadPicture(builder.build())
     }

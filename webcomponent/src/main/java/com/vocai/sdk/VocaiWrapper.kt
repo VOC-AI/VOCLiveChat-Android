@@ -2,12 +2,14 @@ package com.vocai.sdk
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.fragment.app.FragmentManager
 import com.google.firebase.messaging.FirebaseMessaging
 import com.vocai.sdk.core.ConfigLoader
 import com.vocai.sdk.model.ComponentConfiguration
 import com.vocai.sdk.model.StringsConfiguration
 import java.net.URLEncoder
+import java.util.Locale
 
 internal class VocaiWrapper {
 
@@ -53,9 +55,11 @@ internal class VocaiWrapper {
             ?: hashMapOf()
     }
 
-    fun getLanguageCodeCompat() {
+    private fun getLanguageCodeCompat() {
         context?.let {
-            language = it.resources.configuration.locales.get(0).country
+            language = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                it.resources.configuration.locales.get(0).country
+            } else Locale.getDefault().country
         }
     }
 
@@ -87,7 +91,7 @@ internal class VocaiWrapper {
                 append += "&${it.key}=${URLEncoder.encode(it.value, "utf-8")}"
             }
         }
-        return "$url?disableFileInputModal=true&id=$id&token=$token$append"
+        return "$url?disableFileInputModal=true&hideLoading=true&id=$id&token=$token$append"
     }
 
     fun startChat(id: String, token: String) {

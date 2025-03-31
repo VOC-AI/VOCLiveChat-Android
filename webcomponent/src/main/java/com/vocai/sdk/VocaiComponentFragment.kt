@@ -4,11 +4,14 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -27,14 +30,17 @@ internal class VocaiComponentFragment : Fragment() {
     private lateinit var viewModel: WebComponentViewModel
 
     private val componentHelper = WebComponentHelper()
-    private var mLoadingIv:ImageView? = null
+    private var mLoadingIv: ImageView? = null
+    private var mLoadingLayout: FrameLayout? = null
 
     private fun showLoading() {
-        mLoadingIv?.visibility = View.VISIBLE
+        mLoadingLayout?.visibility = View.VISIBLE
+//        mLoadingIv?.visibility = View.VISIBLE
     }
 
     private fun hideLoading() {
-        mLoadingIv?.visibility = View.GONE
+        mLoadingLayout?.visibility = View.GONE
+//        mLoadingIv?.visibility = View.GONE
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -57,16 +63,19 @@ internal class VocaiComponentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mLoadingIv = view.findViewById(R.id.mProgressIv)
-        mLoadingIv?.let {
-            Glide.with(requireContext()).asGif().load(R.raw.loading).into(it)
-        }
+        mLoadingLayout = view.findViewById(R.id.mProgressLayout)
+//        mLoadingIv = view.findViewById(R.id.mProgressIv)
+//        mLoadingIv?.let {
+//            Glide.with(requireContext()).asGif().load(R.raw.loading).into(it)
+//        }
         viewModel = ViewModelProvider(this).get(WebComponentViewModel::class.java)
         componentHelper.onProgressUpdate = {
-            if(it == 0) {
-                showLoading()
-            } else if(it == 100) {
-                hideLoading()
+            Handler(Looper.getMainLooper()).post {
+                if (it == 0) {
+                    showLoading()
+                } else if (it == 100) {
+                    hideLoading()
+                }
             }
         }
         componentHelper.bind(view.findViewById<WebView>(R.id.mWebView))
@@ -77,7 +86,7 @@ internal class VocaiComponentFragment : Fragment() {
         initObserver()
     }
 
-    fun handleBackPress():Boolean {
+    fun handleBackPress(): Boolean {
         return componentHelper.handleBackPress()
     }
 

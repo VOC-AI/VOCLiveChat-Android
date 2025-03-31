@@ -82,9 +82,9 @@ internal class WebComponentHelper {
                 }
             } else if (currentMessage.type == WEB_TYPE_OPEN_FILE) {
                 android.os.Handler(Looper.getMainLooper()).post {
-                    LogUtil.info("open file:${currentMessage.data.url}")
+                    LogUtil.info("open file:${currentMessage.data?.url}")
                     val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
-                        this.putExtra("file", currentMessage.data.url ?: "")
+                        this.putExtra("file", currentMessage.data?.url ?: "")
                     }
                     mWebView.context.startActivity(intent)
                 }

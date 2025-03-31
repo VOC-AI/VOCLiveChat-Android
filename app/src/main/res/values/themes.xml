@@ -4,4 +4,8 @@
     <style name="Theme.WebComponent" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="windowActionBar">true</item>
     </style>
+
+    <style name="Theme.VocaiWebComponent2" parent="@style/Theme.AppCompat.Light.NoActionBar">
+<!--        <item name="colorAccent">#00fff0</item>-->
+    </style>
 </resources>

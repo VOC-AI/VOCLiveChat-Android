@@ -3,7 +3,6 @@ package com.vocai.sdk
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-
 internal class WebComponentActivity : AppCompatActivity() {
 
     lateinit var fragment: VocaiComponentFragment

@@ -24,6 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        <activity-->
+<!--            android:theme="@style/Theme.VocaiWebComponent2"-->
+<!--            android:name="com.vocai.sdk.WebComponentActivity"-->
+<!--            tools:replace="android:theme"-->
+<!--            android:exported="false"/>-->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.vocai.sdk.fileprovider"

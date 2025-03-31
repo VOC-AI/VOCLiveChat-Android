@@ -2,6 +2,7 @@
 <resources>
 
     <style name="Theme.VocaiWebComponent" parent="@style/Theme.AppCompat.Light.NoActionBar">
-
+        <item name="colorAccent">#4c6fff</item>
     </style>
+
 </resources>
