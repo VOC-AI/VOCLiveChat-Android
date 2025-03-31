@@ -14,6 +14,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.FragmentManager
 import com.vocai.sdk.Constants
+import com.vocai.sdk.Constants.WEB_TYPE_HIDE_LOADING
 import com.vocai.sdk.Constants.WEB_TYPE_OPEN_FILE
 import com.vocai.sdk.LogUtil
 import com.vocai.sdk.PdfActivity
@@ -87,6 +88,8 @@ internal class WebComponentHelper {
                     }
                     mWebView.context.startActivity(intent)
                 }
+            } else if(currentMessage.type == WEB_TYPE_HIDE_LOADING) {
+                onProgressUpdate?.invoke(100)
             }
         }, "VOCLivechatMessageHandler")
     }
@@ -153,7 +156,6 @@ internal class WebComponentHelper {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                onProgressUpdate?.invoke(100)
             }
 
             override fun onReceivedError(

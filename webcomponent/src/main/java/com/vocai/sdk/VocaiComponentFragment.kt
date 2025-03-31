@@ -63,7 +63,6 @@ internal class VocaiComponentFragment : Fragment() {
         }
         viewModel = ViewModelProvider(this).get(WebComponentViewModel::class.java)
         componentHelper.onProgressUpdate = {
-            LogUtil.info("progress->$it")
             if(it == 0) {
                 showLoading()
             } else if(it == 100) {
