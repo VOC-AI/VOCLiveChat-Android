@@ -23,7 +23,7 @@
 ```groovy
     import com.vocai.sdk.Vocai.Companion as VocaiSDK
 
-    VocaiSDK.getInstance().init(this,true) {
+    VocaiSDK.getInstance().init(this,false) {
         Log.i("MainActivity","vocai sdk is canceled")
     }
 
