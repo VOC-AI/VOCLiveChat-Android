@@ -8,7 +8,20 @@
         "key_choose_from_gallery": "Gallery",
         "key_choose_from_file": "File",
         "key_cancel": "Cancel",
-        "key_permission_deny": "The app's access to the camera and files has been denied. Please go to the settings to grant the necessary permissions and then retry the current function."
+        "key_nocamera_permission": "No camera permission. Please go to the Settings Center to enable it.",
+        "key_media_limit_exceed": "Maximum file size(%@) exceeded."
+      }
+    },
+    {
+      "language": "ko",
+      "strings": {
+        "key_take_photo": "사진 촬영",
+        "key_take_video": "비디오",
+        "key_choose_from_gallery": "갤러리",
+        "key_choose_from_file": "파일",
+        "key_cancel": "취소",
+        "key_nocamera_permission": "카메라 권한이 없습니다. 설정 센터에서 권한을 활성화하세요.",
+        "key_media_limit_exceed": "최대 파일 크기(%@)를 초과했습니다."
       }
     },
     {
@@ -19,7 +32,20 @@
         "key_choose_from_gallery": "相册",
         "key_choose_from_file": "文件",
         "key_cancel": "取消",
-        "key_permission_deny": "应用访问相机和文件的权限已被拒绝。请前往设置中授予必要的权限，然后重试当前功能。"
+        "key_nocamera_permission": "无摄像头权限，请前往设置中心开启。",
+        "key_media_limit_exceed": "超出最大文件大小（%@）。"
+      }
+    },
+    {
+      "language": "zh-hk",
+      "strings": {
+        "key_take_photo": "拍照",
+        "key_take_video": "影片",
+        "key_choose_from_gallery": "相簿",
+        "key_choose_from_file": "文件",
+        "key_cancel": "取消",
+        "key_nocamera_permission": "無相機權限，請前往設定中心開啟。",
+        "key_media_limit_exceed": "超出最大檔案大小（%@）。"
       }
     },
     {
@@ -30,7 +56,8 @@
         "key_choose_from_gallery": "ギャラリーから選ぶ",
         "key_choose_from_file": "ファイルから選ぶ",
         "key_cancel": "キャンセル",
-        "key_permission_deny": "アプリのカメラとファイルへのアクセス権限が拒否されました。設定で必要な権限を付与してから、現在の機能を再試行してください。"
+        "key_nocamera_permission": "カメラの権限がありません。設定センターで有効にしてください。",
+        "key_media_limit_exceed": "最大ファイルサイズ（%@）を超えました。"
       }
     },
     {
@@ -41,7 +68,8 @@
         "key_choose_from_gallery": "Galerie",
         "key_choose_from_file": "Fichier",
         "key_cancel": "Annuler",
-        "key_permission_deny": "L'accès de l'application à la caméra et aux fichiers a été refusé. Veuillez accéder aux paramètres pour accorder les autorisations nécessaires, puis réessayer la fonction actuelle."
+        "key_nocamera_permission": "Aucune autorisation de caméra. Veuillez l'activer dans les paramètres.",
+        "key_media_limit_exceed": "Taille maximale du fichier (%@) dépassée."
       }
     },
     {
@@ -52,7 +80,8 @@
         "key_choose_from_gallery": "Galerie auswählen",
         "key_choose_from_file": "Datei auswählen",
         "key_cancel": "Abbrechen",
-        "key_permission_deny": "Der Zugriff der App auf die Kamera und die Dateien wurde verweigert. Gehen Sie in die Einstellungen, um die erforderlichen Berechtigungen zu erteilen, und versuchen Sie dann die aktuelle Funktion erneut."
+        "key_nocamera_permission": "Keine Kameraberechtigung. Bitte in den Einstellungen aktivieren.",
+        "key_media_limit_exceed": "Maximale Dateigröße (%@) überschritten."
       }
     },
     {
@@ -63,7 +92,8 @@
         "key_choose_from_gallery": "Galeria",
         "key_choose_from_file": "Arquivo",
         "key_cancel": "Cancelar",
-        "key_permission_deny": "O acesso do aplicativo à câmera e aos arquivos foi negado. Vá para as configurações para conceder as permissões necessárias e tente novamente a função atual."
+        "key_nocamera_permission": "Sem permissão para a câmera. Vá para as configurações para ativar.",
+        "key_media_limit_exceed": "Tamanho máximo do arquivo (%@) excedido."
       }
     },
     {
@@ -74,7 +104,8 @@
         "key_choose_from_gallery": "Galería",
         "key_choose_from_file": "Archivo",
         "key_cancel": "Cancelar",
-        "key_permission_deny": "El acceso de la aplicación a la cámara y a los archivos ha sido denegado. Vaya a la configuración para otorgar los permisos necesarios y luego vuelva a intentar la función actual."
+        "key_nocamera_permission": "Sin permiso de cámara. Ve a Configuración para habilitarlo.",
+        "key_media_limit_exceed": "Tamaño máximo de archivo (%@) excedido."
       }
     },
     {
@@ -85,7 +116,8 @@
         "key_choose_from_gallery": "ギャラリーから選ぶ",
         "key_choose_from_file": "ファイルから選ぶ",
         "key_cancel": "キャンセル",
-        "key_permission_deny": "アプリのカメラとファイルへのアクセス権限が拒否されました。設定で必要な権限を付与してから、現在の機能を再試行してください。"
+        "key_nocamera_permission": "カメラの権限がありません。設定センターで有効にしてください。",
+        "key_media_limit_exceed": "最大ファイルサイズ（%@）を超えました。"
       }
     },
     {
@@ -96,7 +128,8 @@
         "key_choose_from_gallery": "من المعرض",
         "key_choose_from_file": "من الملف",
         "key_cancel": "إلغاء",
-        "key_permission_deny": "تم رفض إتاحة التطبيق للوصول إلى الكاميرا والملفات. يرجى الذهاب إلى الإعدادات لمنح الإذونات الضرورية ثم إعادة محاولة الوظيفة الحالية."
+        "key_nocamera_permission": "لا يوجد إذن للكاميرا. يرجى تفعيله من مركز الإعدادات.",
+        "key_media_limit_exceed": "تم تجاوز الحد الأقصى لحجم الملف (%@)."
       }
     },
     {
@@ -107,7 +140,8 @@
         "key_choose_from_gallery": "Galeri",
         "key_choose_from_file": "File",
         "key_cancel": "Batal",
-        "key_permission_deny": "Akses aplikasi ke kamera dan file telah ditolak. Silakan pergi ke pengaturan untuk memberikan izin yang diperlukan, lalu coba lagi fungsi saat ini."
+        "key_nocamera_permission": "Tidak ada izin kamera. Buka Pengaturan untuk mengaktifkannya.",
+        "key_media_limit_exceed": "Ukuran file maksimum (%@) terlampaui."
       }
     },
     {
@@ -118,7 +152,8 @@
         "key_choose_from_gallery": "Galleria",
         "key_choose_from_file": "Tiedosto",
         "key_cancel": "Peruuta",
-        "key_permission_deny": "Sovelluksen käyttöoikeus kameran ja tiedostojen käyttöön on evätty. Mene asetuksiin myöntämään tarvittavat käyttöoikeudet ja yritä sitten uudelleen nykyistä toimintoa."
+        "key_nocamera_permission": "Ei kameran käyttöoikeutta. Siirry asetuksiin ottaaksesi sen käyttöön.",
+        "key_media_limit_exceed": "Tiedoston enimmäiskoko (%@) ylitetty."
       }
     },
     {
@@ -129,7 +164,8 @@
         "key_choose_from_gallery": "Galleria",
         "key_choose_from_file": "File",
         "key_cancel": "Annulla",
-        "key_permission_deny": "L'accesso dell'applicazione alla fotocamera e ai file è stato negato. Vai alle impostazioni per concedere le autorizzazioni necessarie, quindi riprova la funzione corrente."
+        "key_nocamera_permission": "Nessun permesso per la fotocamera. Vai alle impostazioni per abilitarlo.",
+        "key_media_limit_exceed": "Dimensione massima del file (%@) superata."
       }
     },
     {
@@ -140,7 +176,8 @@
         "key_choose_from_gallery": "Galeria",
         "key_choose_from_file": "Plik",
         "key_cancel": "Anuluj",
-        "key_permission_deny": "Dostęp aplikacji do kamery i plików został odrzucony. Przejdź do ustawień, aby udzielić niezbędnych uprawnień, a następnie spróbuj ponownie użyć bieżącej funkcji."
+        "key_nocamera_permission": "Brak uprawnień do aparatu. Przejdź do ustawień, aby je włączyć.",
+        "key_media_limit_exceed": "Przekroczono maksymalny rozmiar pliku (%@)."
       }
     }
   ]
