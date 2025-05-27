@@ -20,7 +20,7 @@
 ```
 
 + step3. launch chat sdk. `chatId`,`email`,`language` is nullable
-```groovy
+```java
     import com.vocai.sdk.Vocai.Companion as VocaiSDK
 
     VocaiSDK.getInstance().init(this,false) {
