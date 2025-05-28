@@ -76,6 +76,10 @@ internal class VocaiWrapper {
                 ?: getDefaultStrings()
     }
 
+    fun setMaxFileUploadSize(value: Long) {
+        maxUploadFileSize = value
+    }
+
     fun getDefaultStrings(): HashMap<String, String> {
         return stringsEntry?.entities?.firstOrNull { it.language?.lowercase() == DEFAULT_LANGUAGE.lowercase() }?.strings
             ?: hashMapOf()
