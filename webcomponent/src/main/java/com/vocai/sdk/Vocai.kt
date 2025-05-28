@@ -49,13 +49,18 @@ class Vocai internal constructor() {
                 this["email"] = email
             }
             if (language?.isNotEmpty() == true) {
-                this["language"] = language
+                this["language"] = handleLanguage(language)
+                this["lang"] = handleLanguage(language)
             }
         }
         val finalMap = extra?.apply {
             this.putAll(appendMap)
         } ?: appendMap
         wrapper.startChat(id, token, finalMap)
+    }
+
+    private fun handleLanguage(langCode: String): String {
+        return LanguageHelper.normalizeLanguage(langCode)
     }
 
 }

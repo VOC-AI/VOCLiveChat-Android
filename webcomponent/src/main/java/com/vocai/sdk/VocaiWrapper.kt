@@ -44,9 +44,34 @@ internal class VocaiWrapper {
             checkFirebaseStateWhenSdkInit()
         }
         getLanguageCodeCompat()
-        stringsEntry = loader.loadStringsMapper(context)
+        determinStrings(language)
+    }
+
+    private fun determinStrings(langCode: String) {
+        stringsEntry = loader.loadStringsMapper(context as Context)
+        val lang = langCode.lowercase()
+        val l = lang.replace(Regex("_"), "-")
+            .split('-')
+            .getOrNull(0)
+        val stringsLangCodeMap = mapOf(
+            "en-US" to "en",
+            "zh-CN" to "cn",
+            "ja-JP" to "ja",
+            "fr-FR" to "fr",
+            "de-DE" to "de",
+            "pt-PT" to "pt",
+            "es-ES" to "es",
+            "ko-KR" to "ko",
+            "it-IT" to "it",
+            "zh-Hant" to "zh-hk",
+            "zh-Hant-HK" to "zh-hk",
+            "zh-Hant-TW" to "zh-hk",
+            "jp" to "ja",
+            "ar" to "ar"
+        )
+        val stringsLangCode = (stringsLangCodeMap[l]?.takeIf { it.isNotBlank() } ?: l) as String
         strings =
-            stringsEntry?.entities?.firstOrNull { it.language?.lowercase() == language.lowercase() }?.strings
+            stringsEntry?.entities?.firstOrNull { it.language?.lowercase() == stringsLangCode }?.strings
                 ?: getDefaultStrings()
     }
 
@@ -87,6 +112,9 @@ internal class VocaiWrapper {
     internal fun buildUrl(): String {
         var append = ""
         extra?.map {
+            if (it.key == "language" && it.value.isNotEmpty()) {
+                determinStrings(it.value)
+            }
             if (it.key.isNotEmpty() && it.value.isNotEmpty()) {
                 append += "&${it.key}=${URLEncoder.encode(it.value, "utf-8")}"
             }
