@@ -21,6 +21,7 @@ import com.vocai.sdk.PdfActivity
 import com.vocai.sdk.Vocai
 import com.vocai.sdk.bottomsheet.ChooserBottomSheet
 import com.vocai.sdk.helpers.OpenPdfHandler
+import com.vocai.sdk.model.FILE_TYPE_ERROR
 import com.vocai.sdk.model.FILE_TYPE_OTHER
 import com.vocai.sdk.model.FILE_TYPE_PIC
 import com.vocai.sdk.model.FILE_TYPE_VIDEO
@@ -94,12 +95,30 @@ internal class WebComponentHelper {
         }, "VOCLivechatMessageHandler")
     }
 
-    fun postLoadingStateToWebView(type: Int, randomId: String, fileName: String? = null) {
-
+    fun handleFileError(message: String, randomId: String) {
+//            setTimeout(function() {if(typeof handleUploadError==='function')
         val javascript =
-            if (type != FILE_TYPE_OTHER) "javascript:${getLoadingMethodByType(type)}('${randomId}')" else "javascript:${
+            "javascript:setTimeout(function() {${getLoadingMethodByType(FILE_TYPE_ERROR)}('UploadError','${randomId}','${message}') }, 300)"
+        LogUtil.info("execute postLoadingStateToWebView javascript-> $javascript")
+        mWebView.post {
+            mWebView.loadUrl(javascript)
+        }
+    }
+
+    fun postLoadingStateToWebView(type: Int, randomId: String, fileName: String? = null) {
+        var javascript = ""
+        if (type == FILE_TYPE_ERROR) {
+            handleFileError("Error Exceed", randomId)
+            return
+        }
+
+        if (type != FILE_TYPE_OTHER)
+            javascript = "javascript:${getLoadingMethodByType(type)}('${randomId}')"
+        else {
+            javascript = "javascript:${
                 getLoadingMethodByType(type)
             }('${randomId}','${fileName ?: "file"}')"
+        }
         LogUtil.info("execute postLoadingStateToWebView javascript-> $javascript")
         mWebView.post {
             mWebView.loadUrl(javascript)
@@ -111,6 +130,7 @@ internal class WebComponentHelper {
             FILE_TYPE_PIC -> "handleRecieveImageLoading"
             FILE_TYPE_VIDEO -> "handleRecieveVideoLoading"
             FILE_TYPE_OTHER -> "handleRecieveFileLoading"
+            FILE_TYPE_ERROR -> "handleUploadError"
             else -> "handleRecieveImageLoading"
         }
     }

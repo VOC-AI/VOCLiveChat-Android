@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vocai.sdk.LogUtil
+import com.vocai.sdk.extension.toi18nString
+import com.vocai.sdk.model.FILE_TYPE_ERROR
 import com.vocai.sdk.model.NavigateMessage
 import com.vocai.sdk.model.StateEvent
 import com.vocai.sdk.network.WebComponentRepository
@@ -26,6 +28,19 @@ class WebComponentViewModel() : ViewModel() {
             stateLiveData.postValue(StateEvent.Error(type, randomId, e))
         }) {
             stateLiveData.postValue(StateEvent.StartUpload(type, randomId, name))
+
+            if (file.exists() && file.isFile) {
+                val fileSizeInBytes = file.length()
+                val fileSizeInMB = fileSizeInBytes / (1024 * 1024)
+                val maxFileSize = 10 * 1024 * 1024
+                val maxFileSizeInMB = maxFileSize /  (1024 * 1024)
+                if (fileSizeInBytes > maxFileSize) {
+                    val errText = "key_media_limit_exceed".toi18nString().replace("%@", "${maxFileSizeInMB}MB")
+                    stateLiveData.postValue(StateEvent.Error(FILE_TYPE_ERROR, randomId, Throwable(errText)))
+                    return@launch
+                }
+            }
+
             val result = async {
                 repository.uploadFile(msg, file)
             }.await()

@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.vocai.sdk.core.WebComponentHelper
+import com.vocai.sdk.model.ComponentConfiguration
+import com.vocai.sdk.model.FILE_TYPE_ERROR
 import com.vocai.sdk.model.StateEvent
 import com.vocai.sdk.viewmodel.WebComponentViewModel
 import com.vocai.sdk.widget.LoadingDialogFragment
@@ -27,11 +29,17 @@ import java.io.File
 
 internal class VocaiComponentFragment : Fragment() {
 
+    private var configuration: ComponentConfiguration? = null
     private lateinit var viewModel: WebComponentViewModel
 
     private val componentHelper = WebComponentHelper()
     private var mLoadingIv: ImageView? = null
     private var mLoadingLayout: FrameLayout? = null
+
+    init {
+        configuration = Vocai.getInstance().wrapper.config
+    }
+
 
     private fun showLoading() {
         mLoadingLayout?.visibility = View.VISIBLE
@@ -80,7 +88,8 @@ internal class VocaiComponentFragment : Fragment() {
         }
         componentHelper.bind(view.findViewById<WebView>(R.id.mWebView))
         componentHelper.onFileChosen = { msg, filePath, type, fileName ->
-            viewModel.uploadFile(msg, File(filePath), type, fileName)
+            val file = File(filePath)
+            viewModel.uploadFile(msg, file, type, fileName)
         }
         componentHelper.attachToPage(childFragmentManager)
         initObserver()
@@ -108,6 +117,7 @@ internal class VocaiComponentFragment : Fragment() {
 
                 is StateEvent.Error -> {
                     LogUtil.info("get error for some action. ${it.randomId} ${it.throwable}")
+                    componentHelper.handleFileError(it.throwable.message.toString(), it.randomId)
                     LogUtil.info(Log.getStackTraceString(it.throwable))
                 }
 

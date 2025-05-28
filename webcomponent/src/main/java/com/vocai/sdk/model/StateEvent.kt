@@ -15,3 +15,4 @@ internal const val FILE_TYPE_PIC = 1
 internal const val FILE_TYPE_VIDEO = 2
 internal const val FILE_TYPE_GALLERY = 3
 internal const val FILE_TYPE_OTHER = 3
+internal const val FILE_TYPE_ERROR = -1
