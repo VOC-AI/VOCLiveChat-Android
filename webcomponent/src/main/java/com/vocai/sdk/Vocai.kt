@@ -15,6 +15,10 @@ class Vocai internal constructor() {
         wrapper.init(context, isDebug, onCancel)
     }
 
+    fun getMaxFileUploadSize(): Long {
+        return wrapper.getMaxFileUploadSize()
+    }
+
     fun setUrl(url: String) {
         wrapper.setUrl(url)
     }

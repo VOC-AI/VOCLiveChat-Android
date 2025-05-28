@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vocai.sdk.LogUtil
+import com.vocai.sdk.Vocai
 import com.vocai.sdk.extension.toi18nString
 import com.vocai.sdk.model.FILE_TYPE_ERROR
 import com.vocai.sdk.model.NavigateMessage
@@ -31,8 +32,7 @@ class WebComponentViewModel() : ViewModel() {
 
             if (file.exists() && file.isFile) {
                 val fileSizeInBytes = file.length()
-                val fileSizeInMB = fileSizeInBytes / (1024 * 1024)
-                val maxFileSize = 10 * 1024 * 1024
+                val maxFileSize = Vocai.getInstance().getMaxFileUploadSize()
                 val maxFileSizeInMB = maxFileSize /  (1024 * 1024)
                 if (fileSizeInBytes > maxFileSize) {
                     val errText = "key_media_limit_exceed".toi18nString().replace("%@", "${maxFileSizeInMB}MB")

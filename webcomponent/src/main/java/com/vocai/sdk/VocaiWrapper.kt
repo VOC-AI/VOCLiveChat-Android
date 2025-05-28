@@ -27,6 +27,7 @@ internal class VocaiWrapper {
     internal var language: String = DEFAULT_LANGUAGE
     internal var onCancel: (() -> Unit)? = null
     internal lateinit var strings: HashMap<String, String>
+    internal var maxUploadFileSize: Long = 50 * 1024 * 1024
 
     companion object {
         internal const val DEFAULT_ID = "158"
@@ -107,6 +108,10 @@ internal class VocaiWrapper {
 
     fun setUrl(url: String) {
         this.url = url
+    }
+
+    fun getMaxFileUploadSize(): Long {
+        return maxUploadFileSize
     }
 
     internal fun buildUrl(): String {
