@@ -1,3 +1,4 @@
+
 {
   "entities": [
     {
@@ -12,7 +13,8 @@
         "key_setting_desc": "Please grant the app permission to access the photo library in Settings.",
         "key_premission_request": "Permission Request",
         "key_nocamera_permission": "No camera permission. Please go to the Settings Center to enable it.",
-        "key_media_limit_exceed": "Maximum file size(%@) exceeded."
+        "key_media_limit_exceed": "Maximum file size(%@) exceeded.",
+        "key_permission_deny": "The app's permissions to access the camera and files have been denied. Please go to Settings to grant the necessary permissions and try the current feature again."
       }
     },
     {
@@ -27,7 +29,8 @@
         "key_setting_desc": "설정에서 사진 라이브러리에 접근할 수 있는 권한을 부여해주세요.",
         "key_premission_request": "권한 요청",
         "key_nocamera_permission": "카메라 권한이 없습니다. 설정 센터에서 권한을 활성화하세요.",
-        "key_media_limit_exceed": "최대 파일 크기(%@)를 초과했습니다."
+        "key_media_limit_exceed": "최대 파일 크기(%@)를 초과했습니다.",
+        "key_permission_deny": "앱의 카메라 및 파일 접근 권한이 거부되었습니다. 필요한 권한을 설정에서 부여한 후 현재 기능을 다시 시도하세요."
       }
     },
     {
@@ -42,7 +45,8 @@
         "key_setting_desc": "请在设置中授予应用访问照片库的权限。",
         "key_premission_request": "权限请求",
         "key_nocamera_permission": "无摄像头权限，请前往设置中心开启。",
-        "key_media_limit_exceed": "超出最大文件大小（%@）。"
+        "key_media_limit_exceed": "超出最大文件大小（%@）。",
+        "key_permission_deny": "应用访问相机和文件的权限已被拒绝。请前往设置中授予必要的权限，然后重试当前功能。"
       }
     },
     {
@@ -57,7 +61,8 @@
         "key_setting_desc": "請在設定中授予應用程式存取相片庫的權限。",
         "key_premission_request": "權限請求",
         "key_nocamera_permission": "無相機權限，請前往設定中心開啟。",
-        "key_media_limit_exceed": "超出最大檔案大小（%@）。"
+        "key_media_limit_exceed": "超出最大檔案大小（%@）。",
+        "key_permission_deny": "應用程式存取相機和檔案的權限已被拒絕。請前往設定中授予必要的權限，然後重試當前功能。"
       }
     },
     {
@@ -72,7 +77,8 @@
         "key_setting_desc": "設定でアプリに写真ライブラリへのアクセス許可を与えてください。",
         "key_premission_request": "権限リクエスト",
         "key_nocamera_permission": "カメラの権限がありません。設定センターで有効にしてください。",
-        "key_media_limit_exceed": "最大ファイルサイズ（%@）を超えました。"
+        "key_media_limit_exceed": "最大ファイルサイズ（%@）を超えました。",
+        "key_permission_deny": "アプリのカメラとファイルへのアクセス許可が拒否されました。必要な許可を設定で与えて、再度現在の機能を試してください。"
       }
     },
     {
@@ -87,7 +93,8 @@
         "key_setting_desc": "Veuillez accorder à l'application l'autorisation d'accéder à la photothèque dans les paramètres.",
         "key_premission_request": "Demande d'autorisation",
         "key_nocamera_permission": "Aucune autorisation de caméra. Veuillez l'activer dans les paramètres.",
-        "key_media_limit_exceed": "Taille maximale du fichier (%@) dépassée."
+        "key_media_limit_exceed": "Taille maximale du fichier (%@) dépassée.",
+        "key_permission_deny": "Les autorisations de l'application pour accéder à la caméra et aux fichiers ont été refusées. Veuillez accorder les autorisations nécessaires dans les paramètres et réessayer la fonction actuelle."
       }
     },
     {
@@ -102,7 +109,8 @@
         "key_setting_desc": "Bitte erteilen Sie der App die Berechtigung, in den Einstellungen auf die Fotobibliothek zuzugreifen.",
         "key_premission_request": "Berechtigungsanfrage",
         "key_nocamera_permission": "Keine Kameraberechtigung. Bitte in den Einstellungen aktivieren.",
-        "key_media_limit_exceed": "Maximale Dateigröße (%@) überschritten."
+        "key_media_limit_exceed": "Maximale Dateigröße (%@) überschritten.",
+        "key_permission_deny": "Die Berechtigungen der App zur Zugriff auf die Kamera und Dateien wurden verweigert. Geben Sie in den Einstellungen die erforderlichen Berechtigungen und versuchen Sie die aktuelle Funktion erneut."
       }
     },
     {
@@ -117,7 +125,8 @@
         "key_setting_desc": "Conceda permissão ao aplicativo para acessar a galeria de fotos nas configurações.",
         "key_premission_request": "Solicitação de Permissão",
         "key_nocamera_permission": "Sem permissão para a câmera. Vá para as configurações para ativar.",
-        "key_media_limit_exceed": "Tamanho máximo do arquivo (%@) excedido."
+        "key_media_limit_exceed": "Tamanho máximo do arquivo (%@) excedido.",
+        "key_permission_deny": "As permissões do aplicativo para acessar a câmera e os arquivos foram negadas. Acesse as configurações para conceder as permissões necessárias e tente a funcionalidade atual novamente."
       }
     },
     {
@@ -132,7 +141,8 @@
         "key_setting_desc": "Concede permiso a la aplicación para acceder a la biblioteca de fotos en la configuración.",
         "key_premission_request": "Solicitud de permiso",
         "key_nocamera_permission": "Sin permiso de cámara. Ve a Configuración para habilitarlo.",
-        "key_media_limit_exceed": "Tamaño máximo de archivo (%@) excedido."
+        "key_media_limit_exceed": "Tamaño máximo de archivo (%@) excedido.",
+        "key_permission_deny": "Se han denegado los permisos de la aplicación para acceder a la cámara y los archivos. Vaya a Configuración para otorgar los permisos necesarios y vuelva a intentar la función actual."
       }
     },
     {
@@ -147,7 +157,8 @@
         "key_setting_desc": "設定でアプリに写真ライブラリへのアクセスを許可してください。",
         "key_premission_request": "権限リクエスト",
         "key_nocamera_permission": "カメラの権限がありません。設定センターで有効にしてください。",
-        "key_media_limit_exceed": "最大ファイルサイズ（%@）を超えました。"
+        "key_media_limit_exceed": "最大ファイルサイズ（%@）を超えました。",
+        "key_permission_deny": "アプリのカメラとファイルへのアクセス許可が拒否されました。必要な許可を設定で与えて、再度現在の機能を試してください。"
       }
     },
     {
@@ -162,7 +173,8 @@
         "key_setting_desc": "الرجاء منح التطبيق إذن للوصول إلى مكتبة الال_PHOTO في الإعدادات.",
         "key_premission_request": "طلب إذن",
         "key_nocamera_permission": "ليس لديك إذن الكاميرا. الرجاء الذهاب إلى مركز الإعدادات للتمكين.",
-        "key_media_limit_exceed": "تمت превышения الحد الأقصى ل حجم الملف (%@)."
+        "key_media_limit_exceed": "تمت превышения الحد الأقصى ل حجم الملف (%@).",
+        "key_permission_deny": "تم رفض إذن التطبيق للوصول إلى الكاميرا والملفات. الرجاء الذهاب إلى الإعدادات لتقديم الأذنات الضرورية ثم اعادة المحاولة للوظيفة الحالية."
       }
     },
     {
@@ -177,7 +189,8 @@
         "key_setting_desc": "Mohon berikan izin aplikasi untuk mengakses perpustakaan foto di Pengaturan.",
         "key_premission_request": "Permintaan Izin",
         "key_nocamera_permission": "Tidak ada izin kamera. Silakan pergi ke Pusat Pengaturan untuk mengaktifkannya.",
-        "key_media_limit_exceed": "Ukuran file maksimum (%@) melebihi batas."
+        "key_media_limit_exceed": "Ukuran file maksimum (%@) melebihi batas.",
+        "key_permission_deny": "Izin aplikasi untuk mengakses kamera dan file telah ditolak. Silakan pergi ke Pengaturan untuk memberikan izin yang diperlukan dan coba ulangi fungsi saat ini."
       }
     },
     {
@@ -192,7 +205,8 @@
         "key_setting_desc": "Anna sovellukselle oikeus käyttää kuvakotaaasetuksissa.",
         "key_premission_request": "Oikeuspyyntö",
         "key_nocamera_permission": "Kamera-oikeutta ei ole. Ota asetuksista käyttöön.",
-        "key_media_limit_exceed": "Ylitetty tiedoston maksimikoko (%@)."
+        "key_media_limit_exceed": "Ylitetty tiedoston maksimikoko (%@).",
+        "key_permission_deny": "Sovelluksen oikeudet kameraan ja tiedostoihin on kielletty. Asetuksista voit antaa tarvittavat oikeudet ja yrittää funktion uudestaan."
       }
     },
     {
@@ -205,9 +219,10 @@
         "key_cancel": "Annulla",
         "key_settings": "Impostazioni",
         "key_setting_desc": "Concedi all'applicazione l'autorizzazione ad accedere alla libreria foto nelle impostazioni.",
-        "key_premission_request": "Richiesta'autorizzazione",
+        "key_premission_request": "Richiesta autorizzazione",
         "key_nocamera_permission": "Nessuna autorizzazione per la fotocamera. Vai nella centro impostazioni per attivarla.",
-        "key_media_limit_exceed": "Dimensione massima file superata (%@)."
+        "key_media_limit_exceed": "Dimensione massima file superata (%@).",
+        "key_permission_deny": "Le autorizzazioni dell'applicazione per l'accesso alla fotocamera e ai file sono state rifiutate. Vai nelle impostazioni per concedere le autorizzazioni necessarie e riprova la funzione corrente."
       }
     },
     {
@@ -222,7 +237,8 @@
         "key_setting_desc": "Wybierz w ustawieniach uprawnienia aplikacji do dostępu do biblioteki zdjęć.",
         "key_premission_request": "Prośba o uprawnienie",
         "key_nocamera_permission": "Brak uprawnień do kamery. Przejdź do centrum ustawień, aby włączyć je.",
-        "key_media_limit_exceed": "Przekroczono maksymalny rozmiar pliku (%@)."
+        "key_media_limit_exceed": "Przekroczono maksymalny rozmiar pliku (%@).",
+        "key_permission_deny": "Uprawnienia aplikacji do dostępu do kamery i plików zostały odrzucone. Przejdź do ustawień, aby nadać wymagane uprawnienia, a następnie spróbuj ponownie funkcji."
       }
     }
   ]

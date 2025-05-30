@@ -6,13 +6,12 @@
     android:background="@drawable/drawable_rounded_top">
 
     <TextView
-        android:id="@+id/mTakeVideoTv"
+        android:id="@+id/mTakePhotoTv"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="视频"
-        android:textColor="@android:color/black"
         android:gravity="center"
-        />
+        android:text="拍照"
+        android:textColor="@android:color/black" />
 
     <View
         android:layout_width="match_parent"
@@ -20,12 +19,12 @@
         android:background="#1E000000"/>
 
     <TextView
-        android:id="@+id/mTakePhotoTv"
+        android:id="@+id/mTakeVideoTv"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textColor="@android:color/black"
         android:gravity="center"
-        android:text="拍照"/>
+        android:text="视频"
+        android:textColor="@android:color/black" />
 
     <View
         android:layout_width="match_parent"
