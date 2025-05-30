@@ -75,6 +75,7 @@ internal class VocaiWrapper {
             "ko-KR" to "ko",
             "it-IT" to "it",
             "zh" to "cn",
+            "zh-TW" to "zh-HK",
             "zh-Hant" to "zh-HK",
             "zh-Hant-HK" to "zh-HK",
             "zh-Hant-TW" to "zh-HK",
