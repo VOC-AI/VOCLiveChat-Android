@@ -48,9 +48,19 @@ internal class VocaiWrapper {
         determinStrings(language)
     }
 
+    private fun determinStringsImpl(langCode: String): HashMap<String, String>? {
+        val lang = langCode.lowercase()
+        return stringsEntry?.entities?.firstOrNull { it.language?.lowercase() == lang.lowercase() }?.strings
+    }
+
     private fun determinStrings(langCode: String) {
         stringsEntry = loader.loadStringsMapper(context as Context)
         val lang = langCode.lowercase()
+        val stringsTemp = determinStringsImpl(lang)
+        if (stringsTemp != null) {
+            strings = stringsTemp
+            return
+        }
         val l = lang.replace(Regex("_"), "-")
             .split('-')
             .getOrNull(0)
