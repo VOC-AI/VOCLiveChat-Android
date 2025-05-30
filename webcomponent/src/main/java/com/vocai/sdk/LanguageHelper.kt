@@ -5,15 +5,15 @@ import com.vocai.sdk.core.ConfigLoader
 
 fun fixLang(str: String?): String? {
     if (str == null) return null
-
-    val correctionMap = mapOf(
+    val languageMap = mapOf(
         "ko" to "ko-KR",
+        "zh-TW" to "zh-HK",
         "zh-Hans" to "zh-CN",
+        "zh-Hant" to "zh-HK",
         "zh-Hant-HK" to "zh-HK",
-        "zh-Hant-TW" to "zh-TW"
+        "zh-Hant-TW" to "zh-HK"
     )
-
-    return correctionMap[str]
+    return languageMap[str]
 }
 
 fun fullyNormalizeLanguageCode(languageCode: String?): String? {
@@ -30,7 +30,7 @@ fun fullyNormalizeLanguageCode(languageCode: String?): String? {
     var standardized = locale.toLanguageTag()
 
     // 替换下划线为连字符
-    standardized = standardized.replace("_", "-")
+    standardized = standardized.replace(Regex("_"), "-")
 
     // 尝试修复语言代码
     val fixed = fixLang(standardized)

@@ -64,15 +64,16 @@ internal class VocaiWrapper {
             "es-ES" to "es",
             "ko-KR" to "ko",
             "it-IT" to "it",
-            "zh-Hant" to "zh-hk",
-            "zh-Hant-HK" to "zh-hk",
-            "zh-Hant-TW" to "zh-hk",
+            "zh" to "cn",
+            "zh-Hant" to "zh-HK",
+            "zh-Hant-HK" to "zh-HK",
+            "zh-Hant-TW" to "zh-HK",
             "jp" to "ja",
             "ar" to "ar"
         )
         val stringsLangCode = (stringsLangCodeMap[l]?.takeIf { it.isNotBlank() } ?: l) as String
         strings =
-            stringsEntry?.entities?.firstOrNull { it.language?.lowercase() == stringsLangCode }?.strings
+            stringsEntry?.entities?.firstOrNull { it.language?.lowercase() == stringsLangCode.lowercase() }?.strings
                 ?: getDefaultStrings()
     }
 

@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("MainActivity","vocai sdk is canceled")
         }
         findViewById<TextView>(R.id.mChatStart).setOnClickListener {
+            VocaiSDK.getInstance().setMaxFileUploadSize(10 * 1024 * 1024)
             VocaiSDK.getInstance().startChat("19365","6731F71BE4B0187458389512", null,null,"ko-HK",hashMapOf(
                 "email" to "boyuan.gao@shulex-tech.com"
             ))
