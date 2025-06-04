@@ -16,15 +16,21 @@ class MainActivity : AppCompatActivity() {
         VocaiSDK.getInstance().init(this,true) {
             Log.i("MainActivity","vocai sdk is canceled")
         }
+
+//        VocaiSDK.getInstance().startPollUnread("12693", "89757000001ZW")
+//        VocaiSDK.getInstance().stopPollUnread()
+        VocaiSDK.getInstance().subscribeUnread { hasUnread ->
+            LogUtil.info("hasUnread:$hasUnread")
+        }
+
         findViewById<TextView>(R.id.mChatStart).setOnClickListener {
             VocaiSDK.getInstance().setMaxFileUploadSize(10 * 1024 * 1024)
 //            VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN", "89757000001ZW")
             VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN")
-            VocaiSDK.getInstance().subscribeUnread { hasUnread -> {
-                    LogUtil.info("hasUnread:$hasUnread")
-                }
-            }
+
         }
+
+
 
     }
 }

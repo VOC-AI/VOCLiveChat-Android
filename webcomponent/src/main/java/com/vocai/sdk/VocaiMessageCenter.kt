@@ -59,14 +59,9 @@ class VocaiMessageCenter private constructor() {
             while (isActive) {
                 try {
                     val request = UnreadRequest(userId = userId)
-
                     val response = botApiService.checkUnread(botId, request)
-
-                    LogUtil.info("response:$response")
-
                     val newState = response.hasUnread
 
-                    // 检查状态是否变化
                     if (newState != _hasUnreadFlow.value) {
                         _hasUnreadFlow.value = newState
                         notifySubscribers(newState)

@@ -83,10 +83,18 @@ class Vocai internal constructor() {
         return wrapper.getUserId();
     }
 
+    fun startPollUnread(botId: String, userId:String) {
+        VocaiMessageCenter.instance.startPolling(botId, userId)
+    }
+
+    fun stopPollUnread() {
+        VocaiMessageCenter.instance.stopPolling()
+    }
+
     fun subscribeUnread(callback: (Boolean) -> Unit) {
-        VocaiMessageCenter.instance.subscribe { hasUnread -> {
+        VocaiMessageCenter.instance.subscribe { hasUnread ->
             callback(hasUnread)
-        } }
+        }
     }
 
     private fun handleLanguage(langCode: String): String {
