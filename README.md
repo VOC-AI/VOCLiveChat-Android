@@ -31,11 +31,15 @@
     VocaiSDK.getInstance().startChat("{botId}","{token}", "{chatId}", "{email}", "{language}", "{userId}", hashMapOf(
             "email" to "xxxxxxx@shulex-tech.com"
     ))
-
+    
+    // 主动发起消息监听
+     VocaiSDK.getInstance().startPollUnread("{botId}", "{userId}")
+    // 停止监听
+    VocaiSDK.getInstance().stopPollUnread()
+        
     // 未读消息监听 hasUnread: Boolean
-    VocaiSDK.getInstance().subscribeUnread { hasUnread -> {
+    VocaiSDK.getInstance().subscribeUnread { hasUnread -> 
             LogUtil.info("hasUnread:$hasUnread")
-        }
     }
 
 ```
