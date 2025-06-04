@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.vocai.sdk.LogUtil
+import com.vocai.sdk.VocaiMessageCenter
 import com.vocai.sdk.Vocai.Companion as VocaiSDK
 
 class MainActivity : AppCompatActivity() {
@@ -16,9 +18,11 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<TextView>(R.id.mChatStart).setOnClickListener {
             VocaiSDK.getInstance().setMaxFileUploadSize(10 * 1024 * 1024)
-            VocaiSDK.getInstance().startChat("19365","6731F71BE4B0187458389512", null,null,"ko-HK",hashMapOf(
-                "email" to "boyuan.gao@shulex-tech.com"
-            ))
+//            VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN", "89757000001ZW")
+            VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN")
+            VocaiMessageCenter.instance.subscribe { hasUnread -> {
+                LogUtil.info("hasUnread:$hasUnread")
+            } }
         }
 
     }

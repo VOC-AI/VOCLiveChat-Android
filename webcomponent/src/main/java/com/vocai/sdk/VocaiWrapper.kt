@@ -3,13 +3,14 @@ package com.vocai.sdk
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.fragment.app.FragmentManager
 import com.google.firebase.messaging.FirebaseMessaging
 import com.vocai.sdk.core.ConfigLoader
 import com.vocai.sdk.model.ComponentConfiguration
 import com.vocai.sdk.model.StringsConfiguration
 import java.net.URLEncoder
 import java.util.Locale
+import java.util.UUID
+import androidx.core.content.edit
 
 internal class VocaiWrapper {
 
@@ -18,6 +19,7 @@ internal class VocaiWrapper {
     private var token = DEFAULT_TOKEN
     private var url = DEFAULT_URL
     private var extra: HashMap<String, String>? = null
+    private var userId: String? = null
 
     private val loader = ConfigLoader()
     internal var config: ComponentConfiguration? = null
@@ -160,4 +162,30 @@ internal class VocaiWrapper {
         })
     }
 
+    fun getId(): String {
+        return id;
+    }
+
+    fun getOrCreateUserId(): String {
+        if (userId != null) {
+            return userId!!
+        }
+
+        userId = UUID.randomUUID().toString()
+        return userId!!
+    }
+
+    fun getUserId(): String {
+        return userId ?: ""
+    }
+
+//    fun getOrCreateUserId(): String {
+//        return UUID.randomUUID().toString()
+//    }
+//
+//    fun getUserId(): String {
+//        return extra?.get("userId")
+//            ?: extra?.get("email")
+//            ?: UUID.randomUUID().toString()
+//    }
 }

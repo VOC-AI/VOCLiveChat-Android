@@ -1,6 +1,7 @@
 package com.vocai.sdk
 
 import android.content.Context
+import java.util.UUID
 
 class Vocai internal constructor() {
 
@@ -46,6 +47,7 @@ class Vocai internal constructor() {
         chatId: String? = null,
         email: String? = null,
         language: String? = null,
+        userId: String? = null,
         extra: HashMap<String, String>? = null
     ) {
         val appendMap = hashMapOf<String, String>().apply {
@@ -55,6 +57,13 @@ class Vocai internal constructor() {
             if (email?.isNotEmpty() == true) {
                 this["email"] = email
             }
+
+            this["userId"] = if (userId?.isNotEmpty() == true) {
+                userId
+            } else {
+                wrapper.getOrCreateUserId()
+            }
+
             if (language?.isNotEmpty() == true) {
                 this["language"] = handleLanguage(language)
                 this["lang"] = handleLanguage(language)
@@ -64,6 +73,14 @@ class Vocai internal constructor() {
             this.putAll(appendMap)
         } ?: appendMap
         wrapper.startChat(id, token, finalMap)
+    }
+
+    fun getId(): String {
+        return wrapper.getId();
+    }
+
+    fun getUserId(): String {
+        return wrapper.getUserId();
     }
 
     private fun handleLanguage(langCode: String): String {

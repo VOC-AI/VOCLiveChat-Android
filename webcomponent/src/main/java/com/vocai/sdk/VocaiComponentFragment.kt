@@ -95,6 +95,24 @@ internal class VocaiComponentFragment : Fragment() {
         initObserver()
     }
 
+    override fun onResume() {
+        super.onResume()
+        LogUtil.info("web view resume")
+        VocaiMessageCenter.instance.startPolling(Vocai.getInstance().getId(), Vocai.getInstance().getUserId())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LogUtil.info("web view pause")
+        VocaiMessageCenter.instance.startPolling(Vocai.getInstance().getId(), Vocai.getInstance().getUserId())
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LogUtil.info("web view stop")
+//        VocaiMessageCenter.instance.stopPolling()
+    }
+
     fun handleBackPress(): Boolean {
         return componentHelper.handleBackPress()
     }
