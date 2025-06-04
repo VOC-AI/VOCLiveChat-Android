@@ -27,14 +27,15 @@
         Log.i("MainActivity","vocai sdk is canceled")
     }
 
-    # 传入userId  唯一值，建议使用设备ID
-    VocaiSDK.getInstance().startChat("","", null,"{email}", "{language}", "{userId}", hashMapOf(
+    // 传入userId, 唯一值，建议使用设备ID或者已登录用户的ID（比如shopline1001)
+    VocaiSDK.getInstance().startChat("{botId}","{token}", "{chatId}", "{email}", "{language}", "{userId}", hashMapOf(
             "email" to "xxxxxxx@shulex-tech.com"
     ))
 
-    # 未读消息监听 hasUnread: Boolean
-    VocaiMessageCenter.instance.subscribe { hasUnread -> {
-	LogUtil.info("hasUnread:$hasUnread")
-    } }
+    // 未读消息监听 hasUnread: Boolean
+    VocaiSDK.getInstance().subscribeUnread { hasUnread -> {
+            LogUtil.info("hasUnread:$hasUnread")
+        }
+    }
 
 ```

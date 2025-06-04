@@ -20,9 +20,10 @@ class MainActivity : AppCompatActivity() {
             VocaiSDK.getInstance().setMaxFileUploadSize(10 * 1024 * 1024)
 //            VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN", "89757000001ZW")
             VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN")
-            VocaiMessageCenter.instance.subscribe { hasUnread -> {
-                LogUtil.info("hasUnread:$hasUnread")
-            } }
+            VocaiSDK.getInstance().subscribeUnread { hasUnread -> {
+                    LogUtil.info("hasUnread:$hasUnread")
+                }
+            }
         }
 
     }

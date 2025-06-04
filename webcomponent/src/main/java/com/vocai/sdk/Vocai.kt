@@ -83,8 +83,15 @@ class Vocai internal constructor() {
         return wrapper.getUserId();
     }
 
+    fun subscribeUnread(callback: (Boolean) -> Unit) {
+        VocaiMessageCenter.instance.subscribe { hasUnread -> {
+            callback(hasUnread)
+        } }
+    }
+
     private fun handleLanguage(langCode: String): String {
         return LanguageHelper.normalizeLanguage(langCode)
     }
+
 
 }

@@ -52,7 +52,7 @@ class VocaiMessageCenter private constructor() {
     }
 
     // 启动轮询
-    fun startPolling(botId: String, userId:String, intervalMillis: Long = 5000) {
+    fun startPolling(botId: String, userId:String, intervalMillis: Long = 10000) {
         if (pollingJob?.isActive == true) return
 
         pollingJob = scope.launch {
