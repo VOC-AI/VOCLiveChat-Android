@@ -17,13 +17,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.vocai.sdk.core.WebComponentHelper
 import com.vocai.sdk.model.ComponentConfiguration
-import com.vocai.sdk.model.FILE_TYPE_ERROR
 import com.vocai.sdk.model.StateEvent
 import com.vocai.sdk.viewmodel.WebComponentViewModel
-import com.vocai.sdk.widget.LoadingDialogFragment
 import java.io.File
 
 
@@ -97,20 +94,25 @@ internal class VocaiComponentFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        LogUtil.info("web view resume")
+        // 保存chatId
+        componentHelper.saveChatId()
+        // 消息轮询
         VocaiMessageCenter.instance.startPolling(Vocai.getInstance().getId(), Vocai.getInstance().getUserId())
     }
 
+
+
     override fun onPause() {
         super.onPause()
-        LogUtil.info("web view pause")
+        // 保存chatId
+        componentHelper.saveChatId()
+        // 消息轮询
         VocaiMessageCenter.instance.startPolling(Vocai.getInstance().getId(), Vocai.getInstance().getUserId())
     }
 
     override fun onStop() {
         super.onStop()
         LogUtil.info("web view stop")
-//        VocaiMessageCenter.instance.stopPolling()
     }
 
     fun handleBackPress(): Boolean {
@@ -168,5 +170,8 @@ internal class VocaiComponentFragment : Fragment() {
             }
         }
     }
+
+
+
 
 }

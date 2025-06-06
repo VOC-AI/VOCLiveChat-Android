@@ -1,7 +1,8 @@
 package com.vocai.sdk
 
-import android.util.Log
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.vocai.sdk.model.CommitUserRequest
+import com.vocai.sdk.model.UnreadRequest
+import com.vocai.sdk.util.StringUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -11,14 +12,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import retrofit2.Retrofit
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class VocaiMessageCenter private constructor() {
 
@@ -35,14 +32,8 @@ class VocaiMessageCenter private constructor() {
 
     private val json = Json { ignoreUnknownKeys = true }  // 可配置
 
-    // Retrofit 服务接口
-    private val botApiService: BotApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl("https://apps.voc.ai/")
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
-            .create(BotApiService::class.java)
-    }
+
+    private val webComponentService: WebComponentService = WebComponentService()
 
     // 单例实现
     companion object {
@@ -51,7 +42,7 @@ class VocaiMessageCenter private constructor() {
         }
     }
 
-    // 启动轮询
+    // 启动轮询， 如果userId发生变化，需要重新提交userId
     fun startPolling(botId: String, userId:String, intervalMillis: Long = 10000) {
         if (pollingJob?.isActive == true) return
 
@@ -59,7 +50,7 @@ class VocaiMessageCenter private constructor() {
             while (isActive) {
                 try {
                     val request = UnreadRequest(userId = userId)
-                    val response = botApiService.checkUnread(botId, request)
+                    val response = webComponentService.checkUnread(botId, request)
                     val newState = response.hasUnread
 
                     if (newState != _hasUnreadFlow.value) {
@@ -92,31 +83,40 @@ class VocaiMessageCenter private constructor() {
         subscribers.remove(callback)
     }
 
+    /**
+     * 重新绑定会话的用户
+     */
+    fun bindLoginUser(botId: Long, userId: String) {
+        val chatId = Vocai.getInstance().getChatId()
+        if (StringUtils.isEmptyString(chatId)) {
+            return
+        }
+
+        try {
+            val request = CommitUserRequest(userId = userId, botId = botId, chatId = chatId.toString())
+            val commitCall = webComponentService.commitUserId(request)
+            commitCall.enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        LogUtil.info("commit result:$result")
+                    }
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    t.message?.let { LogUtil.info(it) };
+                }
+            })
+
+        } catch (e: Exception) {
+            e.message?.let { LogUtil.info(it) };
+        }
+    }
+
     // 通知所有订阅者
     private fun notifySubscribers(hasUnread: Boolean) {
         subscribers.forEach { it(hasUnread) }
     }
 
-    // Retrofit API 接口
-    interface BotApiService {
-
-        @POST("api_v2/intelli/livechat/{botId}/unread")
-        suspend fun checkUnread(@Path("botId") botId: String, @Body request: UnreadRequest): UnreadResponse
-
-    }
-
-    @Serializable
-    data class UnreadResponse(
-
-        val hasUnread: Boolean
-
-    )
-
-    @Serializable
-    data class UnreadRequest (
-
-        val userId: String
-
-    )
 
 }

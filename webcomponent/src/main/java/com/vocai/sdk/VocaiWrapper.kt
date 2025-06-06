@@ -10,7 +10,6 @@ import com.vocai.sdk.model.StringsConfiguration
 import java.net.URLEncoder
 import java.util.Locale
 import java.util.UUID
-import androidx.core.content.edit
 
 internal class VocaiWrapper {
 
@@ -20,6 +19,7 @@ internal class VocaiWrapper {
     private var url = DEFAULT_URL
     private var extra: HashMap<String, String>? = null
     private var userId: String? = null
+    private var chatId: String? = null
 
     private val loader = ConfigLoader()
     internal var config: ComponentConfiguration? = null
@@ -30,6 +30,7 @@ internal class VocaiWrapper {
     internal var onCancel: (() -> Unit)? = null
     internal lateinit var strings: HashMap<String, String>
     internal var maxUploadFileSize: Long = 50 * 1024 * 1024
+
 
     companion object {
         internal const val DEFAULT_ID = "158"
@@ -188,4 +189,14 @@ internal class VocaiWrapper {
 //            ?: extra?.get("email")
 //            ?: UUID.randomUUID().toString()
 //    }
+
+
+    fun setChatId(chatId: String) {
+        this.chatId = chatId
+    }
+
+    fun getChatId(): String? {
+        return chatId;
+    }
+
 }

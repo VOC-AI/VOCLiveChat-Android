@@ -1,7 +1,9 @@
 package com.vocai.sdk
 
 import android.content.Context
-import java.util.UUID
+import android.text.format.DateUtils
+import android.webkit.CookieManager
+import java.util.Date
 
 class Vocai internal constructor() {
 
@@ -83,6 +85,14 @@ class Vocai internal constructor() {
         return wrapper.getUserId();
     }
 
+    fun setChatId(chatId: String) {
+        wrapper.setChatId(chatId)
+    }
+
+    fun getChatId(): String? {
+        return wrapper.getChatId()
+    }
+
     fun startPollUnread(botId: String, userId:String) {
         VocaiMessageCenter.instance.startPolling(botId, userId)
     }
@@ -95,6 +105,31 @@ class Vocai internal constructor() {
         VocaiMessageCenter.instance.subscribe { hasUnread ->
             callback(hasUnread)
         }
+    }
+
+    fun bindLoginUser(userId: String) {
+        VocaiMessageCenter.instance.bindLoginUser(getId().toLong(), userId)
+    }
+
+    fun clearChat() {
+        val cookieManager = CookieManager.getInstance()
+        val domain = "apps.voc.ai"
+        val prefix = "shulex_chatbot"
+        // 获取 apps.voc.ai 域名下的所有 cookie
+        val cookies = cookieManager.getCookie(domain) ?: return
+
+        // 分割、去空格、处理每个 cookie
+        cookies.split(";")
+            .map { it.trim() }
+            .forEach { cookie ->
+                if (cookie.startsWith(prefix, ignoreCase = true)) {
+                    val cookieName = cookie.substringBefore("=")
+                    // 设置为空字符串
+                    cookieManager.setCookie(domain, "$cookieName=; Path=/")
+                }
+            }
+
+        cookieManager.flush()
     }
 
     private fun handleLanguage(langCode: String): String {

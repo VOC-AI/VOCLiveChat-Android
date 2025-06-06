@@ -20,15 +20,14 @@ import com.vocai.sdk.LogUtil
 import com.vocai.sdk.PdfActivity
 import com.vocai.sdk.Vocai
 import com.vocai.sdk.bottomsheet.ChooserBottomSheet
-import com.vocai.sdk.helpers.OpenPdfHandler
 import com.vocai.sdk.model.FILE_TYPE_ERROR
 import com.vocai.sdk.model.FILE_TYPE_OTHER
 import com.vocai.sdk.model.FILE_TYPE_PIC
 import com.vocai.sdk.model.FILE_TYPE_VIDEO
 import com.vocai.sdk.model.NavigateMessage
+import com.vocai.sdk.util.StringUtils
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.util.logging.Handler
 
 internal class WebComponentHelper {
 
@@ -146,6 +145,22 @@ internal class WebComponentHelper {
         }
     }
 
+    fun saveChatId() {
+        val jsCode = "javascript:getChatId()"
+
+        mWebView.postDelayed( {
+            mWebView.evaluateJavascript(jsCode) { result ->
+                LogUtil.info("chatId: $result")
+
+                if (!StringUtils.isEmptyString(result)) {
+                    var chatId = result.trim().removeSurrounding("\"")
+                    Vocai.getInstance().setChatId(chatId)
+                }
+            }
+        }, 5000L)
+
+    }
+
     private fun getResultMethodByType(type: Int): String {
         return when (type) {
             FILE_TYPE_PIC -> "handleRecieveImage"
@@ -205,5 +220,6 @@ internal class WebComponentHelper {
 
         }
     }
+
 
 }

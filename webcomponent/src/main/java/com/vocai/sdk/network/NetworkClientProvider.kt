@@ -6,8 +6,11 @@ import com.vocai.sdk.model.ComponentConfiguration
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.Retrofit
+import java.lang.reflect.Type
 import java.util.concurrent.TimeUnit
 
 internal class NetworkClientProvider {
@@ -18,9 +21,12 @@ internal class NetworkClientProvider {
     }
 
     fun provide(): Retrofit {
-        return Retrofit.Builder().baseUrl("https://apps.voc.ai").client(createHttpClient()).addConverterFactory(
-            json.asConverterFactory("application/json".toMediaType()),
-        ).build()
+        return Retrofit.Builder()
+            .baseUrl("https://apps.voc.ai")
+            .client(createHttpClient())
+            .addConverterFactory(StringConverterFactory())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
     }
 
     init {
@@ -41,4 +47,25 @@ internal class NetworkClientProvider {
 
     fun getTimeoutTime(): Long = configuration?.networkConfig?.timeoutTime ?: 0L
 
+
+
+}
+
+class StringConverter : Converter<ResponseBody, String> {
+    override fun convert(value: ResponseBody): String {
+        return value.string() // 直接返回字符串内容
+    }
+}
+
+class StringConverterFactory : Converter.Factory() {
+    override fun responseBodyConverter(
+        type: Type,
+        annotations: Array<Annotation>,
+        retrofit: Retrofit
+    ): Converter<ResponseBody, *>? {
+        if (type == String::class.java) {
+            return StringConverter()
+        }
+        return null
+    }
 }

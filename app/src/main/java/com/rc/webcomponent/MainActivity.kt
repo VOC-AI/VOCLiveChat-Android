@@ -2,6 +2,7 @@ package com.rc.webcomponent
 
 import android.os.Bundle
 import android.util.Log
+import android.webkit.CookieManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.vocai.sdk.LogUtil
@@ -26,8 +27,11 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.mChatStart).setOnClickListener {
             VocaiSDK.getInstance().setMaxFileUploadSize(10 * 1024 * 1024)
 //            VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN", "89757000001ZW")
+//            val cookieManager = CookieManager.getInstance()
+//            LogUtil.info("CurrentCookies" + cookieManager.getCookie("apps.voc.ai"))
+//            VocaiSDK.getInstance().clearChat()
+//            LogUtil.info("CurrentCookies" + cookieManager.getCookie("apps.voc.ai"))
             VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN")
-
         }
 
 
