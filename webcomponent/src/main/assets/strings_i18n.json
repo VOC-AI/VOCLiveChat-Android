@@ -14,7 +14,10 @@
         "key_premission_request": "Permission Request",
         "key_nocamera_permission": "No camera permission. Please go to the Settings Center to enable it.",
         "key_media_limit_exceed": "Maximum file size(%@) exceeded.",
-        "key_permission_deny": "The app's permissions to access the camera and files have been denied. Please go to Settings to grant the necessary permissions and try the current feature again."
+        "key_permission_deny": "The app's permissions to access the camera and files have been denied. Please go to Settings to grant the necessary permissions and try the current feature again.",
+        "permission_alert_description_photos": "Photo library permission is required to upload audio files, change your profile picture, and access customer support.",
+        "permission_alert_description_camera": "Camera permission is required to change your profile picture and access customer support.",
+        "permission_alert_description_storage": "Storage permission is required to upload files, transcribe and summarize content, and access customer support."
       }
     },
     {
@@ -30,7 +33,10 @@
         "key_premission_request": "권한 요청",
         "key_nocamera_permission": "카메라 권한이 없습니다. 설정 센터에서 권한을 활성화하세요.",
         "key_media_limit_exceed": "최대 파일 크기(%@)를 초과했습니다.",
-        "key_permission_deny": "앱의 카메라 및 파일 접근 권한이 거부되었습니다. 필요한 권한을 설정에서 부여한 후 현재 기능을 다시 시도하세요."
+        "key_permission_deny": "앱의 카메라 및 파일 접근 권한이 거부되었습니다. 필요한 권한을 설정에서 부여한 후 현재 기능을 다시 시도하세요.",
+        "permission_alert_description_photos": "오디오 업로드, 프로필 사진 변경 및 고객 지원을 위해 사진 앨범 권한이 필요합니다.",
+        "permission_alert_description_camera": "프로필 사진 변경 및 고객 지원을 위해 카메라 권한이 필요합니다.",
+        "permission_alert_description_storage": "파일 업로드, 전사 및 요약, 고객 지원을 위해 저장소 권한이 필요합니다."
       }
     },
     {
@@ -46,7 +52,10 @@
         "key_premission_request": "权限请求",
         "key_nocamera_permission": "无摄像头权限，请前往设置中心开启。",
         "key_media_limit_exceed": "超出最大文件大小（%@）。",
-        "key_permission_deny": "应用访问相机和文件的权限已被拒绝。请前往设置中授予必要的权限，然后重试当前功能。"
+        "key_permission_deny": "应用访问相机和文件的权限已被拒绝。请前往设置中授予必要的权限，然后重试当前功能。",
+        "permission_alert_description_photos": "需要申请相册权限，用于上传音频、更换头像以及客服支持功能。",
+        "permission_alert_description_camera": "需要申请相机权限，用于更换头像、客服支持功能。",
+        "permission_alert_description_storage": "需要申请存储权限，用于上传文件、转写与总结、客服支持功能。"
       }
     },
     {
@@ -62,7 +71,10 @@
         "key_premission_request": "權限請求",
         "key_nocamera_permission": "無相機權限，請前往設定中心開啟。",
         "key_media_limit_exceed": "超出最大檔案大小（%@）。",
-        "key_permission_deny": "應用程式存取相機和檔案的權限已被拒絕。請前往設定中授予必要的權限，然後重試當前功能。"
+        "key_permission_deny": "應用程式存取相機和檔案的權限已被拒絕。請前往設定中授予必要的權限，然後重試當前功能。",
+        "permission_alert_description_photos": "需要申請相簿權限，以上傳音訊、更換大頭貼及使用客服支援功能。",
+        "permission_alert_description_camera": "需要申請相機權限，以更換大頭貼及使用客服支援功能。",
+        "permission_alert_description_storage": "需要申請儲存權限，以上傳檔案、進行轉錄與摘要，並使用客服支援功能。"
       }
     },
     {
@@ -78,7 +90,10 @@
         "key_premission_request": "権限リクエスト",
         "key_nocamera_permission": "カメラの権限がありません。設定センターで有効にしてください。",
         "key_media_limit_exceed": "最大ファイルサイズ（%@）を超えました。",
-        "key_permission_deny": "アプリのカメラとファイルへのアクセス許可が拒否されました。必要な許可を設定で与えて、再度現在の機能を試してください。"
+        "key_permission_deny": "アプリのカメラとファイルへのアクセス許可が拒否されました。必要な許可を設定で与えて、再度現在の機能を試してください。",
+        "permission_alert_description_photos": "音声ファイルのアップロード、プロフィール画像の変更、カスタマーサポートの利用には、写真ライブラリのアクセス許可が必要です。",
+        "permission_alert_description_camera": "プロフィール画像の変更やカスタマーサポートの利用には、カメラの許可が必要です。",
+        "permission_alert_description_storage": "ファイルのアップロード、内容の書き起こしと要約、カスタマーサポートの利用には、ストレージのアクセス許可が必要です。"
       }
     },
     {
@@ -94,7 +109,10 @@
         "key_premission_request": "Demande d'autorisation",
         "key_nocamera_permission": "Aucune autorisation de caméra. Veuillez l'activer dans les paramètres.",
         "key_media_limit_exceed": "Taille maximale du fichier (%@) dépassée.",
-        "key_permission_deny": "Les autorisations de l'application pour accéder à la caméra et aux fichiers ont été refusées. Veuillez accorder les autorisations nécessaires dans les paramètres et réessayer la fonction actuelle."
+        "key_permission_deny": "Les autorisations de l'application pour accéder à la caméra et aux fichiers ont été refusées. Veuillez accorder les autorisations nécessaires dans les paramètres et réessayer la fonction actuelle.",
+        "permission_alert_description_photos": "L’accès à la galerie est requis pour télécharger des fichiers audio, changer votre photo de profil et utiliser le support client.",
+        "permission_alert_description_camera": "L’accès à la caméra est requis pour changer la photo de profil et utiliser le support client.",
+        "permission_alert_description_storage": "L’autorisation de stockage est requise pour télécharger, transcrire et résumer le contenu, et utiliser le support client."
       }
     },
     {
@@ -110,7 +128,10 @@
         "key_premission_request": "Berechtigungsanfrage",
         "key_nocamera_permission": "Keine Kameraberechtigung. Bitte in den Einstellungen aktivieren.",
         "key_media_limit_exceed": "Maximale Dateigröße (%@) überschritten.",
-        "key_permission_deny": "Die Berechtigungen der App zur Zugriff auf die Kamera und Dateien wurden verweigert. Geben Sie in den Einstellungen die erforderlichen Berechtigungen und versuchen Sie die aktuelle Funktion erneut."
+        "key_permission_deny": "Die Berechtigungen der App zur Zugriff auf die Kamera und Dateien wurden verweigert. Geben Sie in den Einstellungen die erforderlichen Berechtigungen und versuchen Sie die aktuelle Funktion erneut.",
+        "permission_alert_description_photos": "Zugriff auf die Fotobibliothek ist erforderlich, um Audiodateien hochzuladen, das Profilbild zu ändern und den Kundensupport zu nutzen.",
+        "permission_alert_description_camera": "Kamerazugriff ist erforderlich, um das Profilbild zu ändern und den Kundensupport zu nutzen.",
+        "permission_alert_description_storage": "Speicherzugriff ist erforderlich, um Dateien hochzuladen, Inhalte zu transkribieren und zusammenzufassen sowie den Kundensupport zu nutzen."
       }
     },
     {
@@ -126,7 +147,10 @@
         "key_premission_request": "Solicitação de Permissão",
         "key_nocamera_permission": "Sem permissão para a câmera. Vá para as configurações para ativar.",
         "key_media_limit_exceed": "Tamanho máximo do arquivo (%@) excedido.",
-        "key_permission_deny": "As permissões do aplicativo para acessar a câmera e os arquivos foram negadas. Acesse as configurações para conceder as permissões necessárias e tente a funcionalidade atual novamente."
+        "key_permission_deny": "As permissões do aplicativo para acessar a câmera e os arquivos foram negadas. Acesse as configurações para conceder as permissões necessárias e tente a funcionalidade atual novamente.",
+        "permission_alert_description_photos": "A permissão da galeria é necessária para enviar áudios, alterar a foto do perfil e acessar o suporte ao cliente.",
+        "permission_alert_description_camera": "A permissão da câmera é necessária para alterar a foto do perfil e usar o suporte ao cliente.",
+        "permission_alert_description_storage": "A permissão de armazenamento é necessária para upload, transcrição, resumo e suporte ao cliente."
       }
     },
     {
@@ -142,7 +166,10 @@
         "key_premission_request": "Solicitud de permiso",
         "key_nocamera_permission": "Sin permiso de cámara. Ve a Configuración para habilitarlo.",
         "key_media_limit_exceed": "Tamaño máximo de archivo (%@) excedido.",
-        "key_permission_deny": "Se han denegado los permisos de la aplicación para acceder a la cámara y los archivos. Vaya a Configuración para otorgar los permisos necesarios y vuelva a intentar la función actual."
+        "key_permission_deny": "Se han denegado los permisos de la aplicación para acceder a la cámara y los archivos. Vaya a Configuración para otorgar los permisos necesarios y vuelva a intentar la función actual.",
+        "permission_alert_description_photos": "Se requiere permiso de acceso a la galería para subir audios, cambiar la foto de perfil y utilizar el soporte al cliente.",
+        "permission_alert_description_camera": "Se requiere permiso de cámara para cambiar la foto de perfil y utilizar el soporte al cliente.",
+        "permission_alert_description_storage": "Se requiere permiso de almacenamiento para subir archivos, transcribir y resumir contenido, y utilizar el soporte al cliente."
       }
     },
     {
@@ -158,7 +185,10 @@
         "key_premission_request": "権限リクエスト",
         "key_nocamera_permission": "カメラの権限がありません。設定センターで有効にしてください。",
         "key_media_limit_exceed": "最大ファイルサイズ（%@）を超えました。",
-        "key_permission_deny": "アプリのカメラとファイルへのアクセス許可が拒否されました。必要な許可を設定で与えて、再度現在の機能を試してください。"
+        "key_permission_deny": "アプリのカメラとファイルへのアクセス許可が拒否されました。必要な許可を設定で与えて、再度現在の機能を試してください。",
+        "permission_alert_description_photos": "音声ファイルのアップロード、プロフィール画像の変更、カスタマーサポートの利用には、写真ライブラリのアクセス許可が必要です。",
+        "permission_alert_description_camera": "プロフィール画像の変更やカスタマーサポートの利用には、カメラの許可が必要です。",
+        "permission_alert_description_storage": "ファイルのアップロード、内容の書き起こしと要約、カスタマーサポートの利用には、ストレージのアクセス許可が必要です。"
       }
     },
     {
@@ -174,7 +204,10 @@
         "key_premission_request": "طلب إذن",
         "key_nocamera_permission": "ليس لديك إذن الكاميرا. الرجاء الذهاب إلى مركز الإعدادات للتمكين.",
         "key_media_limit_exceed": "تمت превышения الحد الأقصى ل حجم الملف (%@).",
-        "key_permission_deny": "تم رفض إذن التطبيق للوصول إلى الكاميرا والملفات. الرجاء الذهاب إلى الإعدادات لتقديم الأذنات الضرورية ثم اعادة المحاولة للوظيفة الحالية."
+        "key_permission_deny": "تم رفض إذن التطبيق للوصول إلى الكاميرا والملفات. الرجاء الذهاب إلى الإعدادات لتقديم الأذنات الضرورية ثم اعادة المحاولة للوظيفة الحالية.",
+        "permission_alert_description_photos": "Photo library permission is required to upload audio files, change your profile picture, and access customer support.",
+        "permission_alert_description_camera": "Camera permission is required to change your profile picture and access customer support.",
+        "permission_alert_description_storage": "Storage permission is required to upload files, transcribe and summarize content, and access customer support."
       }
     },
     {
@@ -190,7 +223,10 @@
         "key_premission_request": "Permintaan Izin",
         "key_nocamera_permission": "Tidak ada izin kamera. Silakan pergi ke Pusat Pengaturan untuk mengaktifkannya.",
         "key_media_limit_exceed": "Ukuran file maksimum (%@) melebihi batas.",
-        "key_permission_deny": "Izin aplikasi untuk mengakses kamera dan file telah ditolak. Silakan pergi ke Pengaturan untuk memberikan izin yang diperlukan dan coba ulangi fungsi saat ini."
+        "key_permission_deny": "Izin aplikasi untuk mengakses kamera dan file telah ditolak. Silakan pergi ke Pengaturan untuk memberikan izin yang diperlukan dan coba ulangi fungsi saat ini.",
+        "permission_alert_description_photos": "Photo library permission is required to upload audio files, change your profile picture, and access customer support.",
+        "permission_alert_description_camera": "Camera permission is required to change your profile picture and access customer support.",
+        "permission_alert_description_storage": "Storage permission is required to upload files, transcribe and summarize content, and access customer support."
       }
     },
     {
@@ -206,7 +242,10 @@
         "key_premission_request": "Oikeuspyyntö",
         "key_nocamera_permission": "Kamera-oikeutta ei ole. Ota asetuksista käyttöön.",
         "key_media_limit_exceed": "Ylitetty tiedoston maksimikoko (%@).",
-        "key_permission_deny": "Sovelluksen oikeudet kameraan ja tiedostoihin on kielletty. Asetuksista voit antaa tarvittavat oikeudet ja yrittää funktion uudestaan."
+        "key_permission_deny": "Sovelluksen oikeudet kameraan ja tiedostoihin on kielletty. Asetuksista voit antaa tarvittavat oikeudet ja yrittää funktion uudestaan.",
+        "permission_alert_description_camera": "Camera permission is required to change your profile picture and access customer support.",
+        "permission_alert_description_photos": "Photo library permission is required to upload audio files, change your profile picture, and access customer support.",
+        "permission_alert_description_storage": "Storage permission is required to upload files, transcribe and summarize content, and access customer support."
       }
     },
     {
@@ -222,7 +261,10 @@
         "key_premission_request": "Richiesta autorizzazione",
         "key_nocamera_permission": "Nessuna autorizzazione per la fotocamera. Vai nella centro impostazioni per attivarla.",
         "key_media_limit_exceed": "Dimensione massima file superata (%@).",
-        "key_permission_deny": "Le autorizzazioni dell'applicazione per l'accesso alla fotocamera e ai file sono state rifiutate. Vai nelle impostazioni per concedere le autorizzazioni necessarie e riprova la funzione corrente."
+        "key_permission_deny": "Le autorizzazioni dell'applicazione per l'accesso alla fotocamera e ai file sono state rifiutate. Vai nelle impostazioni per concedere le autorizzazioni necessarie e riprova la funzione corrente.",
+        "permission_alert_description_photos": "È necessaria l’autorizzazione alla libreria fotografica per caricare file audio, cambiare l’immagine del profilo e accedere all’assistenza clienti.",
+        "permission_alert_description_camera": "L’autorizzazione alla fotocamera è necessaria per cambiare l’immagine del profilo e accedere all’assistenza clienti.",
+        "permission_alert_description_storage": "È necessario l’accesso allo spazio di archiviazione per caricare, trascrivere e riassumere contenuti e accedere all’assistenza clienti."
       }
     },
     {
@@ -238,7 +280,10 @@
         "key_premission_request": "Prośba o uprawnienie",
         "key_nocamera_permission": "Brak uprawnień do kamery. Przejdź do centrum ustawień, aby włączyć je.",
         "key_media_limit_exceed": "Przekroczono maksymalny rozmiar pliku (%@).",
-        "key_permission_deny": "Uprawnienia aplikacji do dostępu do kamery i plików zostały odrzucone. Przejdź do ustawień, aby nadać wymagane uprawnienia, a następnie spróbuj ponownie funkcji."
+        "key_permission_deny": "Uprawnienia aplikacji do dostępu do kamery i plików zostały odrzucone. Przejdź do ustawień, aby nadać wymagane uprawnienia, a następnie spróbuj ponownie funkcji.",
+        "permission_alert_description_photos": "Photo library permission is required to upload audio files, change your profile picture, and access customer support.",
+        "permission_alert_description_camera": "Camera permission is required to change your profile picture and access customer support.",
+        "permission_alert_description_storage": "Storage permission is required to upload files, transcribe and summarize content, and access customer support."
       }
     }
   ]

@@ -31,7 +31,17 @@ class MainActivity : AppCompatActivity() {
 //            LogUtil.info("CurrentCookies" + cookieManager.getCookie("apps.voc.ai"))
 //            VocaiSDK.getInstance().clearChat()
 //            LogUtil.info("CurrentCookies" + cookieManager.getCookie("apps.voc.ai"))
-            VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN")
+            VocaiSDK.getInstance().startChat(
+                "12693",
+                "6603F148E4B0FDA74F2A353A",
+                null,
+                null,
+                "zh-CN",
+                "89757000001ZW",
+                hashMapOf(
+                    "noBrand" to "true"
+                )
+            )
         }
 
 

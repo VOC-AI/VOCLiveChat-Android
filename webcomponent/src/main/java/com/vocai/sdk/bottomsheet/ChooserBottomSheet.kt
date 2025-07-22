@@ -21,6 +21,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Button
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -150,7 +152,12 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
                 if (isPermissionGranted(permissions)) {
                     launchBehaviorPerClickTag(clickTag)
                 } else {
-                    cameraPermissionLauncher.launch(permissions)
+                    requestWithExplainDialog(
+                        "key_premission_request".toi18nString(),
+                        "permission_alert_description_camera".toi18nString(),
+                        permissions,
+                        cameraPermissionLauncher
+                    )
                 }
             }
         }
@@ -161,8 +168,13 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
                 val permissions = arrayOf(Manifest.permission.CAMERA)
                 if (isPermissionGranted(permissions)) {
                     launchBehaviorPerClickTag(clickTag)
-                } else {
-                    cameraPermissionLauncher.launch(permissions)
+                }  else {
+                    requestWithExplainDialog(
+                        "key_premission_request".toi18nString(),
+                        "permission_alert_description_camera".toi18nString(),
+                        permissions,
+                        cameraPermissionLauncher
+                    )
                 }
             }
         }
@@ -174,7 +186,13 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
                 if (isPermissionGranted(permissions)) {
                     launchBehaviorPerClickTag(clickTag)
                 } else {
-                    galleryPermissionLauncher.launch(permissions)
+//                    galleryPermissionLauncher.launch(permissions)
+                    requestWithExplainDialog(
+                        "key_premission_request".toi18nString(),
+                        "permission_alert_description_photos".toi18nString(),
+                        permissions,
+                        cameraPermissionLauncher
+                    )
                 }
             }
         }
@@ -186,7 +204,12 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
                 if (isPermissionGranted(permissions)) {
                     launchBehaviorPerClickTag(clickTag)
                 } else {
-                    galleryPermissionLauncher.launch(permissions)
+                    requestWithExplainDialog(
+                        "key_premission_request".toi18nString(),
+                        "permission_alert_description_storage".toi18nString(),
+                        permissions,
+                        cameraPermissionLauncher
+                    )
                 }
             }
         }
@@ -385,4 +408,28 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
         return fileName
     }
 
+    private fun requestWithExplainDialog(
+        title: String,
+        message: String,
+        permissions: Array<String>,
+        launcher: ActivityResultLauncher<Array<String>>
+    ) {
+        val dialog = BottomSheetDialog(requireContext())
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_permission_notice, null)
+        dialog.setContentView(dialogView)
+
+        dialogView.findViewById<TextView>(R.id.tvTitle).text = title
+        dialogView.findViewById<TextView>(R.id.tvMessage).text = message
+
+        dialogView.findViewById<ImageView>(R.id.ivClose).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.btnContinue).setOnClickListener {
+            launcher.launch(permissions)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
 }
