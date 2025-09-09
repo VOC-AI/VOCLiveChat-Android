@@ -15,7 +15,7 @@
 + step2. Add the dependency
 ```groovy
 	dependencies {
-            implementation 'com.github.VOC-AI:VOCLiveChat-Android:1.2.5'
+            implementation 'com.github.VOC-AI:VOCLiveChat-Android:1.3.7'
 	}
 ```
 
