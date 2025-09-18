@@ -37,6 +37,7 @@ internal class WebComponentHelper {
     var mBottomSheet: ChooserBottomSheet? = null
     var onFileChosen: ((NavigateMessage, String, Int, String?) -> Unit)? = null
     var onProgressUpdate: ((Int) -> Unit)? = null
+    var onClosePage: (() -> Unit)? = null
 
     companion object {
         const val CUSTOM_USER_AGENT = "Vocai/1.0"
@@ -71,6 +72,7 @@ internal class WebComponentHelper {
     private fun setupJsInterface() {
         mWebView.addJavascriptInterface(VOCLivechatMessageHandler(mWebView.context) {
             val currentMessage = Json.decodeFromString<NavigateMessage>(it)
+            LogUtil.info("收到页面请求:" + currentMessage.type )
             if (currentMessage.type == Constants.WEB_TYPE_INPUT_FILE) {
                 fragmentManager?.let {
                     mBottomSheet?.apply {
@@ -90,6 +92,10 @@ internal class WebComponentHelper {
                 }
             } else if(currentMessage.type == WEB_TYPE_HIDE_LOADING) {
                 onProgressUpdate?.invoke(100)
+            } else if(currentMessage.type == Constants.WEB_TYPE_CLOSE_PAGE) {
+                android.os.Handler(Looper.getMainLooper()).post {
+                    onClosePage?.invoke()
+                }
             }
         }, "VOCLivechatMessageHandler")
     }

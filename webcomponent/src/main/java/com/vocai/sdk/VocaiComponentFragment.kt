@@ -88,6 +88,16 @@ internal class VocaiComponentFragment : Fragment() {
             val file = File(filePath)
             viewModel.uploadFile(msg, file, type, fileName)
         }
+        componentHelper.onClosePage = {
+            // 处理来自网页的关闭请求
+            closePage()
+        }
+        
+//        // 设置返回按钮点击事件
+//        view.findViewById<ImageView>(R.id.back_button)?.setOnClickListener {
+//            closePage()
+//        }
+        
         componentHelper.attachToPage(childFragmentManager)
         initObserver()
     }
@@ -172,6 +182,29 @@ internal class VocaiComponentFragment : Fragment() {
     }
 
 
-
-
+    /**
+     * 关闭当前页面/Fragment
+     * 此方法可以被宿主应用调用，用于关闭当前聊天页面
+     * 
+     * @return true 如果成功处理了关闭操作，false 否则
+     */
+    fun closePage(): Boolean {
+        try {
+            // 保存聊天ID
+            componentHelper.saveChatId()
+            
+            // 使用Activity的onBackPressed或onBackPressedDispatcher来正确处理返回栈
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // Android 13及以上使用onBackPressedDispatcher
+                activity?.onBackPressedDispatcher?.onBackPressed()
+            } else {
+                // Android 13以下使用onBackPressed
+                (activity as? WebComponentActivity)?.onBackPressed()
+            }
+            return true
+        } catch (e: Exception) {
+            LogUtil.info("关闭页面失败: ${e.message}")
+            return false
+        }
+    }
 }

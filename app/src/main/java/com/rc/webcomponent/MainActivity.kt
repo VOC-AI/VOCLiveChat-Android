@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        VocaiSDK.getInstance().init(this,true) {
+        VocaiSDK.getInstance().init(this, isDebug = true) {
             Log.i("MainActivity","vocai sdk is canceled")
         }
 
@@ -31,10 +31,17 @@ class MainActivity : AppCompatActivity() {
 //            LogUtil.info("CurrentCookies" + cookieManager.getCookie("apps.voc.ai"))
 //            VocaiSDK.getInstance().clearChat()
 //            LogUtil.info("CurrentCookies" + cookieManager.getCookie("apps.voc.ai"))
-            VocaiSDK.getInstance().startChat("12693","6603F148E4B0FDA74F2A353A", null,null,"zh-CN")
+
+            VocaiSDK.getInstance().startChat(
+                id = "12693",
+                token = "6603F148E4B0FDA74F2A353A",
+                chatId = null,
+                email = null,
+                language = "zh-CN",
+                userId = "89757000001ZW",
+                extra =  hashMapOf("noBrand" to "true", "back_btn" to "true")
+            )
         }
-
-
 
     }
 }
