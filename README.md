@@ -15,7 +15,7 @@
 + step2. Add the dependency
 ```groovy
 	dependencies {
-            implementation 'com.github.VOC-AI:VOCLiveChat-Android:1.2.5'
+            implementation 'com.github.VOC-AI:VOCLiveChat-Android:1.3.9'
 	}
 ```
 
@@ -27,7 +27,7 @@
 
     // 传入userId, 唯一值，建议使用设备ID或者已登录用户的ID（比如shopline1001)
     VocaiSDK.getInstance().startChat("{botId}","{token}", "{chatId}", "{email}", "{language}", "{userId}", hashMapOf(
-            "email" to "xxxxxxx@shulex-tech.com"
+            "email" to "xxxxxxx@shulex-tech.com", "noBrand" to "true", "back_btn" to "true"
     ))
     
     // 主动发起消息监听
