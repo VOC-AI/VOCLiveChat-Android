@@ -33,6 +33,8 @@ internal class WebComponentHelper {
 
     private lateinit var mWebView: WebView
     private var fragmentManager: FragmentManager? = null
+    private val loadingTimeoutHandler = android.os.Handler(Looper.getMainLooper())
+    private var loadingTimeoutRunnable: Runnable? = null
 
     var mBottomSheet: ChooserBottomSheet? = null
     var onFileChosen: ((NavigateMessage, String, Int, String?) -> Unit)? = null
@@ -42,6 +44,7 @@ internal class WebComponentHelper {
     companion object {
         const val CUSTOM_USER_AGENT = "Vocai/1.0"
         const val TAG_CHOOSER = "chooser"
+        const val LOADING_TIMEOUT_MS = 15000L // 15秒超时
     }
 
     fun bind(webView: WebView) {
@@ -50,7 +53,6 @@ internal class WebComponentHelper {
         setupWebClient()
         setupWebChromeClient()
         val url = Vocai.getInstance().buildUrl()
-        LogUtil.info("start url->$url")
         this.mWebView.setBackgroundColor(Color.TRANSPARENT)
         this.mWebView.loadUrl(url)
         onProgressUpdate?.invoke(0)
@@ -72,7 +74,6 @@ internal class WebComponentHelper {
     private fun setupJsInterface() {
         mWebView.addJavascriptInterface(VOCLivechatMessageHandler(mWebView.context) {
             val currentMessage = Json.decodeFromString<NavigateMessage>(it)
-            LogUtil.info("收到页面请求:" + currentMessage.type )
             if (currentMessage.type == Constants.WEB_TYPE_INPUT_FILE) {
                 fragmentManager?.let {
                     mBottomSheet?.apply {
@@ -84,7 +85,6 @@ internal class WebComponentHelper {
                 }
             } else if (currentMessage.type == WEB_TYPE_OPEN_FILE) {
                 android.os.Handler(Looper.getMainLooper()).post {
-                    LogUtil.info("open file:${currentMessage.data?.url}")
                     val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
                         this.putExtra("file", currentMessage.data?.url ?: "")
                     }
@@ -101,10 +101,8 @@ internal class WebComponentHelper {
     }
 
     fun handleFileError(message: String, randomId: String) {
-//            setTimeout(function() {if(typeof handleUploadError==='function')
         val javascript =
             "javascript:setTimeout(function() {${getLoadingMethodByType(FILE_TYPE_ERROR)}('UploadError','${randomId}','${message}') }, 300)"
-        LogUtil.info("execute postLoadingStateToWebView javascript-> $javascript")
         mWebView.post {
             mWebView.loadUrl(javascript)
         }
@@ -124,7 +122,6 @@ internal class WebComponentHelper {
                 getLoadingMethodByType(type)
             }('${randomId}','${fileName ?: "file"}')"
         }
-        LogUtil.info("execute postLoadingStateToWebView javascript-> $javascript")
         mWebView.post {
             mWebView.loadUrl(javascript)
         }
@@ -145,7 +142,6 @@ internal class WebComponentHelper {
         val javascript =
             "javascript:${getResultMethodByType(type)}('$url',${Json.encodeToString(hashMap)})"
 
-        LogUtil.info("execute postResultToWebView javascript-> $javascript")
         mWebView.post {
             mWebView.loadUrl(javascript)
         }
@@ -156,8 +152,6 @@ internal class WebComponentHelper {
 
         mWebView.postDelayed( {
             mWebView.evaluateJavascript(jsCode) { result ->
-                LogUtil.info("chatId: $result")
-
                 if (!StringUtils.isEmptyString(result)) {
                     var chatId = result.trim().removeSurrounding("\"")
                     Vocai.getInstance().setChatId(chatId)
@@ -176,15 +170,32 @@ internal class WebComponentHelper {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint("SetJavaScriptEnabled", "ObsoleteSdkInt")
     private fun setUpWebSettings() {
         mWebView.settings.apply {
-            WebView.setWebContentsDebuggingEnabled(true)
+            WebView.setWebContentsDebuggingEnabled(false)
             javaScriptEnabled = true
-            cacheMode = WebSettings.LOAD_NO_CACHE
+            cacheMode = WebSettings.LOAD_DEFAULT
             domStorageEnabled = true
-            setSupportZoom(false)
+            setSupportZoom(true)
+            builtInZoomControls = true
+            displayZoomControls = false
             userAgentString = "${this.userAgentString} $CUSTOM_USER_AGENT"
+
+            // 支持加载外部链接的额外设置
+            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            allowFileAccess = true
+            allowContentAccess = true
+            databaseEnabled = true
+            javaScriptCanOpenWindowsAutomatically = true
+            loadsImagesAutomatically = true
+            mediaPlaybackRequiresUserGesture = false
+
+            blockNetworkImage = false
+            blockNetworkLoads = false
+            useWideViewPort = true
+            loadWithOverviewMode = true
+            setSupportMultipleWindows(true)
         }
     }
 
@@ -193,10 +204,13 @@ internal class WebComponentHelper {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 onProgressUpdate?.invoke(0)
+                startLoadingTimeout()
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+                cancelLoadingTimeout()
+                onProgressUpdate?.invoke(100)
             }
 
             override fun onReceivedError(
@@ -205,7 +219,26 @@ internal class WebComponentHelper {
                 error: WebResourceError?
             ) {
                 super.onReceivedError(view, request, error)
+                if (request?.isForMainFrame == true) {
+                    cancelLoadingTimeout()
+                    onProgressUpdate?.invoke(100)
+                }
             }
+        }
+    }
+
+    private fun startLoadingTimeout() {
+        cancelLoadingTimeout()
+        loadingTimeoutRunnable = Runnable {
+            onProgressUpdate?.invoke(100)
+        }
+        loadingTimeoutHandler.postDelayed(loadingTimeoutRunnable!!, LOADING_TIMEOUT_MS)
+    }
+
+    private fun cancelLoadingTimeout() {
+        loadingTimeoutRunnable?.let {
+            loadingTimeoutHandler.removeCallbacks(it)
+            loadingTimeoutRunnable = null
         }
     }
 
@@ -218,10 +251,50 @@ internal class WebComponentHelper {
 
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
+                if (newProgress == 100) {
+                    cancelLoadingTimeout()
+                    onProgressUpdate?.invoke(100)
+                }
             }
 
             override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                 return super.onConsoleMessage(consoleMessage)
+            }
+
+            // 处理 target="_blank" 和 window.open() 的链接
+            override fun onCreateWindow(
+                view: WebView?,
+                isDialog: Boolean,
+                isUserGesture: Boolean,
+                resultMsg: android.os.Message?
+            ): Boolean {
+                val newWebView = WebView(view?.context ?: return false)
+                newWebView.webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): Boolean {
+                        val url = request?.url?.toString()
+                        if (url != null) {
+                            mWebView.loadUrl(url)
+                        }
+                        return true
+                    }
+
+                    @Deprecated("Deprecated in Java")
+                    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                        if (url != null) {
+                            mWebView.loadUrl(url)
+                        }
+                        return true
+                    }
+                }
+
+                val transport = resultMsg?.obj as? android.webkit.WebView.WebViewTransport
+                transport?.webView = newWebView
+                resultMsg?.sendToTarget()
+
+                return true
             }
 
         }
