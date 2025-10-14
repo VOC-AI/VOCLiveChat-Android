@@ -201,6 +201,72 @@ internal class WebComponentHelper {
 
     private fun setupWebClient() {
         mWebView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                val url = request?.url?.toString() ?: return false
+                
+                // 处理特殊 scheme (tel:, mailto:, sms: 等)
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                        view?.context?.startActivity(intent)
+                        return true
+                    } catch (e: Exception) {
+                        // 如果无法处理，让 WebView 尝试
+                        return false
+                    }
+                }
+                
+                // 检查是否是 PDF 文件
+                if (url.endsWith(".pdf", ignoreCase = true) || 
+                    url.contains(".pdf?", ignoreCase = true) ||
+                    url.contains(".pdf#", ignoreCase = true)) {
+                    android.os.Handler(Looper.getMainLooper()).post {
+                        val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
+                            this.putExtra("file", url)
+                        }
+                        mWebView.context.startActivity(intent)
+                    }
+                    return true
+                }
+                
+                // 其他 HTTP/HTTPS 链接在 WebView 中打开
+                return false
+            }
+            
+            @Deprecated("Deprecated in Java")
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                if (url == null) return false
+                
+                // 处理特殊 scheme
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                        view?.context?.startActivity(intent)
+                        return true
+                    } catch (e: Exception) {
+                        return false
+                    }
+                }
+                
+                // 检查是否是 PDF 文件
+                if (url.endsWith(".pdf", ignoreCase = true) || 
+                    url.contains(".pdf?", ignoreCase = true) ||
+                    url.contains(".pdf#", ignoreCase = true)) {
+                    android.os.Handler(Looper.getMainLooper()).post {
+                        val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
+                            this.putExtra("file", url)
+                        }
+                        mWebView.context.startActivity(intent)
+                    }
+                    return true
+                }
+                
+                return false
+            }
+            
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 onProgressUpdate?.invoke(0)
@@ -269,6 +335,7 @@ internal class WebComponentHelper {
                 resultMsg: android.os.Message?
             ): Boolean {
                 val newWebView = WebView(view?.context ?: return false)
+                
                 newWebView.webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
@@ -276,7 +343,20 @@ internal class WebComponentHelper {
                     ): Boolean {
                         val url = request?.url?.toString()
                         if (url != null) {
-                            mWebView.loadUrl(url)
+                            if (url.endsWith(".pdf", ignoreCase = true) || 
+                                url.contains(".pdf?", ignoreCase = true) ||
+                                url.contains(".pdf#", ignoreCase = true)) {
+                                android.os.Handler(Looper.getMainLooper()).post {
+                                    val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
+                                        this.putExtra("file", url)
+                                    }
+                                    mWebView.context.startActivity(intent)
+                                }
+                            } else {
+                                mWebView.post {
+                                    mWebView.loadUrl(url)
+                                }
+                            }
                         }
                         return true
                     }
@@ -284,7 +364,20 @@ internal class WebComponentHelper {
                     @Deprecated("Deprecated in Java")
                     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                         if (url != null) {
-                            mWebView.loadUrl(url)
+                            if (url.endsWith(".pdf", ignoreCase = true) || 
+                                url.contains(".pdf?", ignoreCase = true) ||
+                                url.contains(".pdf#", ignoreCase = true)) {
+                                android.os.Handler(Looper.getMainLooper()).post {
+                                    val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
+                                        this.putExtra("file", url)
+                                    }
+                                    mWebView.context.startActivity(intent)
+                                }
+                            } else {
+                                mWebView.post {
+                                    mWebView.loadUrl(url)
+                                }
+                            }
                         }
                         return true
                     }
