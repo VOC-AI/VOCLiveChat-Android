@@ -277,6 +277,34 @@ internal class WebComponentHelper {
                 super.onPageFinished(view, url)
                 cancelLoadingTimeout()
                 onProgressUpdate?.invoke(100)
+                
+                // 注入 JavaScript 来设置默认使用后置摄像头
+                injectCameraScript(view)
+            }
+            
+            private fun injectCameraScript(view: WebView?) {
+                val script = """
+                    (function() {
+                        // 重写 getUserMedia 以默认使用后置摄像头
+                        const originalGetUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+                        
+                        navigator.mediaDevices.getUserMedia = function(constraints) {
+                            if (constraints && constraints.video) {
+                                // 如果是 video 请求，设置默认为后置摄像头
+                                if (typeof constraints.video === 'boolean') {
+                                    constraints.video = {
+                                        facingMode: { ideal: 'environment' }  // environment = 后置，user = 前置
+                                    };
+                                } else if (typeof constraints.video === 'object' && !constraints.video.facingMode) {
+                                    constraints.video.facingMode = { ideal: 'environment' };
+                                }
+                            }
+                            return originalGetUserMedia(constraints);
+                        };
+                    })();
+                """.trimIndent()
+                
+                view?.evaluateJavascript(script, null)
             }
 
             override fun onReceivedError(
