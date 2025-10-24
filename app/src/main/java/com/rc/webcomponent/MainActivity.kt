@@ -5,6 +5,9 @@ import android.util.Log
 import android.webkit.CookieManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.vocai.sdk.LogUtil
 import com.vocai.sdk.VocaiMessageCenter
 import com.vocai.sdk.Vocai.Companion as VocaiSDK
@@ -12,6 +15,12 @@ import com.vocai.sdk.Vocai.Companion as VocaiSDK
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 设置沉浸式状态栏，避免挖孔屏顶部白条
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val controller = WindowInsetsControllerCompat(window, window.decorView)
+        controller.hide(WindowInsetsCompat.Type.statusBars())
+        controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 
         setContentView(R.layout.activity_main)
         VocaiSDK.getInstance().init(this, isDebug = true) {

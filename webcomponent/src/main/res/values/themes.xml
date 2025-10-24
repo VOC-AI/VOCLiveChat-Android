@@ -3,6 +3,8 @@
 
     <style name="Theme.VocaiWebComponent" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">#4c6fff</item>
+        <!-- 刘海屏/挖孔屏适配 -->
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 
 </resources>

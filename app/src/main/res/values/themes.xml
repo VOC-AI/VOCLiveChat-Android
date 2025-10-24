@@ -3,6 +3,8 @@
 
     <style name="Theme.WebComponent" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="windowActionBar">true</item>
+        <!-- 刘海屏/挖孔屏适配 -->
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 
     <style name="Theme.VocaiWebComponent2" parent="@style/Theme.AppCompat.Light.NoActionBar">
