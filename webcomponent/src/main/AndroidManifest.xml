@@ -21,10 +21,12 @@
         <activity
             android:theme="@style/Theme.VocaiWebComponent"
             android:name="com.vocai.sdk.WebComponentActivity"
+            android:screenOrientation="user"
             android:exported="false"/>
         <activity
             android:theme="@style/Theme.VocaiWebComponent"
             android:name="com.vocai.sdk.PdfActivity"
+            android:screenOrientation="user"
             android:exported="false"
             />
         <provider
