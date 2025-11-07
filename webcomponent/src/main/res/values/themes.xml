@@ -3,7 +3,11 @@
 
     <style name="Theme.VocaiWebComponent" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">#4c6fff</item>
-        <!-- 刘海屏/挖孔屏适配 -->
+        <!-- 全屏显示，支持刘海屏/挖孔屏 -->
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <!-- Android 9.0+ (API 28+) 刘海屏/挖孔屏适配 -->
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 

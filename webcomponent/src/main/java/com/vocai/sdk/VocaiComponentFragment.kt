@@ -73,6 +73,9 @@ internal class VocaiComponentFragment : Fragment() {
 //        mLoadingIv?.let {
 //            Glide.with(requireContext()).asGif().load(R.raw.loading).into(it)
 //        }
+        
+        val webView = view.findViewById<WebView>(R.id.mWebView)
+        
         viewModel = ViewModelProvider(this).get(WebComponentViewModel::class.java)
         componentHelper.onProgressUpdate = {
             Handler(Looper.getMainLooper()).post {
@@ -83,7 +86,7 @@ internal class VocaiComponentFragment : Fragment() {
                 }
             }
         }
-        componentHelper.bind(view.findViewById<WebView>(R.id.mWebView))
+        componentHelper.bind(webView)
         componentHelper.onFileChosen = { msg, filePath, type, fileName ->
             val file = File(filePath)
             viewModel.uploadFile(msg, file, type, fileName)

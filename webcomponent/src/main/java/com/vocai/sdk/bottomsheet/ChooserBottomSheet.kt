@@ -255,12 +255,33 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
         val mimeType = contentResolver?.getType(uri)
         LogUtil.info("chosen from gallery->$uri mimeType->$mimeType")
         getVocaiInstance().wrapper.getContext()?.let { ctx ->
-            if (mimeType?.startsWith("image/") == true) {
-                onResultChosen?.invoke(getFile(ctx, uri), FILE_TYPE_PIC, null)
-            } else if (mimeType?.startsWith("video/") == true) {
-                onResultChosen?.invoke(getFile(ctx, uri), FILE_TYPE_VIDEO, null)
-            } else {
-                LogUtil.info("unknow mimeType->$mimeType")
+            try {
+                // 先尝试直接获取文件路径（适用于本地相册）
+                var file = getFileIfExists(ctx, uri)
+                
+                // 如果直接获取失败，使用流复制方式（适用于云端相册如 Google Photos）
+                if (file == null || !file.exists()) {
+                    val fileName = getFileName(ctx, uri) ?: "temp_${System.currentTimeMillis()}"
+                    val path = readFileFromUri(ctx, uri, fileName)
+                    if (path.isNotEmpty()) {
+                        file = File(path)
+                    }
+                }
+                
+                file?.let {
+                    if (mimeType?.startsWith("image/") == true) {
+                        onResultChosen?.invoke(it, FILE_TYPE_PIC, null)
+                    } else if (mimeType?.startsWith("video/") == true) {
+                        onResultChosen?.invoke(it, FILE_TYPE_VIDEO, null)
+                    } else {
+                        LogUtil.info("unknown mimeType->$mimeType")
+                    }
+                } ?: run {
+                    LogUtil.info("Failed to get file from uri: $uri")
+                }
+            } catch (e: Exception) {
+                LogUtil.info("Error processing gallery chosen: ${e.message}")
+                e.printStackTrace()
             }
         }
     }
@@ -329,19 +350,51 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
         }
         return File(path)
     }
+    
+    /**
+     * 尝试获取文件，如果文件不存在则返回 null
+     * 这个方法适用于本地存储的文件
+     */
+    private fun getFileIfExists(context: Context, uri: Uri): File? {
+        return try {
+            var path: String? = null
+            val colum = arrayOf(MediaStore.Images.Media.DATA)
+            val cursor = context.contentResolver.query(uri, colum, null, null, null)
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    val index = cursor.getColumnIndex(colum[0])
+                    if (index >= 0) {
+                        path = cursor.getString(index)
+                    }
+                }
+                cursor.close()
+            }
+            
+            if (path != null && path.isNotEmpty()) {
+                val file = File(path)
+                if (file.exists()) file else null
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            LogUtil.info("getFileIfExists error: ${e.message}")
+            null
+        }
+    }
 
-    @SuppressLint("Recycle")
     fun readFileFromUri(context: Context, uri: Uri?, fileName: String): String {
         if (uri == null) return ""
         LogUtil.info("readFileFromUri fileName:$fileName")
+        var inputStream: java.io.InputStream? = null
+        var outputStream: FileOutputStream? = null
         try {
-            val inputStream = context.contentResolver.openInputStream(uri)
+            inputStream = context.contentResolver.openInputStream(uri)
             // 使用输入流读取文件内容（如保存到临时文件）
             if (inputStream != null) {
                 // 示例：保存到临时文件
                 val tempFile =
                     File.createTempFile("temp", ".${getSuffix(fileName)}", context.cacheDir)
-                val outputStream = FileOutputStream(tempFile)
+                outputStream = FileOutputStream(tempFile)
                 val buffer = ByteArray(4 * 1024)
                 var read: Int
                 while (inputStream.read(buffer).also { read = it } != -1) {
@@ -352,6 +405,13 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
             }
         } catch (e: IOException) {
             e.printStackTrace()
+        } finally {
+            try {
+                inputStream?.close()
+                outputStream?.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
         }
         return ""
     }
