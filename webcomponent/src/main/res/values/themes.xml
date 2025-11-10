@@ -3,11 +3,11 @@
 
     <style name="Theme.VocaiWebComponent" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">#4c6fff</item>
-        <!-- 全屏显示，支持刘海屏/挖孔屏 -->
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <!-- Android 9.0+ (API 28+) 刘海屏/挖孔屏适配 -->
+        <!-- 状态栏颜色设置为白色，与页面背景一致 -->
+        <item name="android:statusBarColor">@android:color/white</item>
+        <!-- 状态栏图标使用深色（因为背景是白色） -->
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- 挖孔屏适配：让状态栏延伸到挖孔区域 -->
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 
