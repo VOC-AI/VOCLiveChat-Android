@@ -5,13 +5,17 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Looper
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.ConsoleMessage
+import android.webkit.DownloadListener
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import androidx.fragment.app.FragmentManager
 import com.vocai.sdk.Constants
 import com.vocai.sdk.Constants.WEB_TYPE_HIDE_LOADING
@@ -35,6 +39,11 @@ internal class WebComponentHelper {
     private var fragmentManager: FragmentManager? = null
     private val loadingTimeoutHandler = android.os.Handler(Looper.getMainLooper())
     private var loadingTimeoutRunnable: Runnable? = null
+    
+    // 视频全屏支持
+    private var customView: View? = null
+    private var customViewCallback: WebChromeClient.CustomViewCallback? = null
+    private var originalSystemUiVisibility = 0
 
     var mBottomSheet: ChooserBottomSheet? = null
     var onFileChosen: ((NavigateMessage, String, Int, String?) -> Unit)? = null
@@ -52,6 +61,7 @@ internal class WebComponentHelper {
         setUpWebSettings()
         setupWebClient()
         setupWebChromeClient()
+        setupDownloadListener()
         val url = Vocai.getInstance().buildUrl()
         this.mWebView.setBackgroundColor(Color.TRANSPARENT)
         this.mWebView.loadUrl(url)
@@ -350,6 +360,64 @@ internal class WebComponentHelper {
                     onProgressUpdate?.invoke(100)
                 }
             }
+            
+            // 视频全屏播放支持
+            override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
+                if (customView != null) {
+                    onHideCustomView()
+                    return
+                }
+                
+                customView = view
+                customViewCallback = callback
+                
+                // 保存原始的 UI visibility
+                originalSystemUiVisibility = mWebView.systemUiVisibility
+                
+                // 获取根视图（通常是 DecorView）
+                val decorView = (mWebView.context as? android.app.Activity)?.window?.decorView as? FrameLayout
+                
+                // 隐藏 WebView，显示全屏视频
+                mWebView.visibility = View.GONE
+                
+                // 将视频 View 添加到 DecorView
+                decorView?.addView(customView, FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                ))
+                
+                // 设置全屏模式
+                (mWebView.context as? android.app.Activity)?.window?.decorView?.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                )
+                
+                LogUtil.info("Video fullscreen mode enabled")
+            }
+            
+            override fun onHideCustomView() {
+                if (customView == null) {
+                    return
+                }
+                
+                // 移除全屏视频 View
+                val decorView = (mWebView.context as? android.app.Activity)?.window?.decorView as? FrameLayout
+                decorView?.removeView(customView)
+                
+                // 恢复 WebView 显示
+                mWebView.visibility = View.VISIBLE
+                
+                // 恢复原始的 UI visibility
+                (mWebView.context as? android.app.Activity)?.window?.decorView?.systemUiVisibility = originalSystemUiVisibility
+                
+                // 清理
+                customViewCallback?.onCustomViewHidden()
+                customView = null
+                customViewCallback = null
+                
+                LogUtil.info("Video fullscreen mode disabled")
+            }
 
             override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                 return super.onConsoleMessage(consoleMessage)
@@ -418,6 +486,22 @@ internal class WebComponentHelper {
                 return true
             }
 
+        }
+    }
+    
+    /**
+     * 设置下载监听器，支持视频下载
+     */
+    private fun setupDownloadListener() {
+        mWebView.setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
+            try {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = android.net.Uri.parse(url)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                mWebView.context.startActivity(intent)
+            } catch (e: Exception) {
+                LogUtil.info("Download error: ${e.message}")
+            }
         }
     }
 
