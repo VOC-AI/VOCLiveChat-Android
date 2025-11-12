@@ -5,7 +5,6 @@ import android.os.Build
 import androidx.activity.result.ActivityResultCaller
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 
 class StoragePermissionHandler(
     val caller: ActivityResultCaller
@@ -29,16 +28,15 @@ class StoragePermissionHandler(
     }
 
     private fun getGalleryPermissionCompat(): Array<String> =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) getGalleryPermissionCompat33() else getGalleryPermission()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13+ 不需要权限，使用系统选择器
+            emptyArray()
+        } else {
+            getGalleryPermission()
+        }
 
     private fun getGalleryPermission(): Array<String> = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE
-    )
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun getGalleryPermissionCompat33(): Array<String> = arrayOf(
-        Manifest.permission.READ_MEDIA_IMAGES,
-        Manifest.permission.READ_MEDIA_VIDEO
     )
 
 }
