@@ -203,7 +203,7 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
             TAG_VIDEO -> {
                 takeVideoLauncher.launch(Intent(MediaStore.ACTION_VIDEO_CAPTURE).apply {
                     resultFile = File(
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                        requireContext().getExternalFilesDir(Environment.DIRECTORY_DCIM),
                         System.currentTimeMillis().toString().plus(".mp4")
                     )
                     putExtra(KEY_RETURN_DATA, false)
@@ -217,7 +217,7 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
             TAG_PICTURE -> {
                 takePictureLauncher.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
                     resultFile = File(
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                        requireContext().getExternalFilesDir(Environment.DIRECTORY_DCIM),
                         System.currentTimeMillis().toString().plus(".png")
                     )
                     putExtra(KEY_RETURN_DATA, false)
@@ -256,28 +256,21 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
         LogUtil.info("chosen from gallery->$uri mimeType->$mimeType")
         getVocaiInstance().wrapper.getContext()?.let { ctx ->
             try {
-                // 先尝试直接获取文件路径（适用于本地相册）
-                var file = getFileIfExists(ctx, uri)
+                // 使用 ContentResolver 读取 URI，系统授予临时访问权限，无需存储权限
+                val fileName = getFileName(ctx, uri) ?: "temp_${System.currentTimeMillis()}"
+                val path = readFileFromUri(ctx, uri, fileName)
                 
-                // 如果直接获取失败，使用流复制方式（适用于云端相册如 Google Photos）
-                if (file == null || !file.exists()) {
-                    val fileName = getFileName(ctx, uri) ?: "temp_${System.currentTimeMillis()}"
-                    val path = readFileFromUri(ctx, uri, fileName)
-                    if (path.isNotEmpty()) {
-                        file = File(path)
-                    }
-                }
-                
-                file?.let {
+                if (path.isNotEmpty()) {
+                    val file = File(path)
                     if (mimeType?.startsWith("image/") == true) {
-                        onResultChosen?.invoke(it, FILE_TYPE_PIC, null)
+                        onResultChosen?.invoke(file, FILE_TYPE_PIC, null)
                     } else if (mimeType?.startsWith("video/") == true) {
-                        onResultChosen?.invoke(it, FILE_TYPE_VIDEO, null)
+                        onResultChosen?.invoke(file, FILE_TYPE_VIDEO, null)
                     } else {
                         LogUtil.info("unknown mimeType->$mimeType")
                     }
-                } ?: run {
-                    LogUtil.info("Failed to get file from uri: $uri")
+                } else {
+                    LogUtil.info("Failed to read file from uri: $uri")
                 }
             } catch (e: Exception) {
                 LogUtil.info("Error processing gallery chosen: ${e.message}")
@@ -354,33 +347,6 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
      * 尝试获取文件，如果文件不存在则返回 null
      * 这个方法适用于本地存储的文件
      */
-    private fun getFileIfExists(context: Context, uri: Uri): File? {
-        return try {
-            var path: String? = null
-            val colum = arrayOf(MediaStore.Images.Media.DATA)
-            val cursor = context.contentResolver.query(uri, colum, null, null, null)
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    val index = cursor.getColumnIndex(colum[0])
-                    if (index >= 0) {
-                        path = cursor.getString(index)
-                    }
-                }
-                cursor.close()
-            }
-            
-            if (path != null && path.isNotEmpty()) {
-                val file = File(path)
-                if (file.exists()) file else null
-            } else {
-                null
-            }
-        } catch (e: Exception) {
-            LogUtil.info("getFileIfExists error: ${e.message}")
-            null
-        }
-    }
-
     fun readFileFromUri(context: Context, uri: Uri?, fileName: String): String {
         if (uri == null) return ""
         LogUtil.info("readFileFromUri fileName:$fileName")
