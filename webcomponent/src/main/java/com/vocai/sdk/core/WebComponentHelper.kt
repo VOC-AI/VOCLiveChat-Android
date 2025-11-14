@@ -242,6 +242,20 @@ internal class WebComponentHelper {
                     return true
                 }
                 
+                // 检查是否是外部链接，如果是则在外部浏览器中打开
+                if (isExternalUrl(url)) {
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        view?.context?.startActivity(intent)
+                        return true
+                    } catch (e: Exception) {
+                        LogUtil.info("Failed to open external URL: ${e.message}")
+                        // 如果无法打开，让 WebView 尝试
+                        return false
+                    }
+                }
+                
                 // 其他 HTTP/HTTPS 链接在 WebView 中打开
                 return false
             }
@@ -272,6 +286,20 @@ internal class WebComponentHelper {
                         mWebView.context.startActivity(intent)
                     }
                     return true
+                }
+                
+                // 检查是否是外部链接，如果是则在外部浏览器中打开
+                if (isExternalUrl(url)) {
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        view?.context?.startActivity(intent)
+                        return true
+                    } catch (e: Exception) {
+                        LogUtil.info("Failed to open external URL: ${e.message}")
+                        // 如果无法打开，让 WebView 尝试
+                        return false
+                    }
                 }
                 
                 return false
@@ -448,7 +476,21 @@ internal class WebComponentHelper {
                                     }
                                     mWebView.context.startActivity(intent)
                                 }
+                            } else if (isExternalUrl(url)) {
+                                // 外部链接在外部浏览器中打开
+                                try {
+                                    val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    mWebView.context.startActivity(intent)
+                                } catch (e: Exception) {
+                                    LogUtil.info("Failed to open external URL: ${e.message}")
+                                    // 如果无法打开，在主WebView中加载
+                                    mWebView.post {
+                                        mWebView.loadUrl(url)
+                                    }
+                                }
                             } else {
+                                // 内部链接在主WebView中加载
                                 mWebView.post {
                                     mWebView.loadUrl(url)
                                 }
@@ -469,7 +511,21 @@ internal class WebComponentHelper {
                                     }
                                     mWebView.context.startActivity(intent)
                                 }
+                            } else if (isExternalUrl(url)) {
+                                // 外部链接在外部浏览器中打开
+                                try {
+                                    val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    mWebView.context.startActivity(intent)
+                                } catch (e: Exception) {
+                                    LogUtil.info("Failed to open external URL: ${e.message}")
+                                    // 如果无法打开，在主WebView中加载
+                                    mWebView.post {
+                                        mWebView.loadUrl(url)
+                                    }
+                                }
                             } else {
+                                // 内部链接在主WebView中加载
                                 mWebView.post {
                                     mWebView.loadUrl(url)
                                 }
@@ -502,6 +558,48 @@ internal class WebComponentHelper {
             } catch (e: Exception) {
                 LogUtil.info("Download error: ${e.message}")
             }
+        }
+    }
+
+    /**
+     * 检查URL是否是外部链接（不是应用内部域名）
+     */
+    private fun isExternalUrl(url: String): Boolean {
+        try {
+            val uri = android.net.Uri.parse(url)
+            val host = uri.host ?: return false
+            
+            // 获取应用的基础URL
+            val baseUrl = Vocai.getInstance().wrapper.buildUrl()
+            val baseUri = android.net.Uri.parse(baseUrl)
+            val baseHost = baseUri.host ?: return false
+            
+            // 检查是否是外部域名（不是基础域名的子域名）
+            // 例如：apps.voc.ai 和 www.voc.ai 是内部域名
+            // 而 www.plaud.ai 是外部域名
+            val baseDomain = extractBaseDomain(baseHost)
+            val urlDomain = extractBaseDomain(host)
+            
+            return baseDomain != urlDomain
+        } catch (e: Exception) {
+            LogUtil.info("Error checking external URL: ${e.message}")
+            // 如果解析失败，默认认为是外部链接，在外部浏览器中打开
+            return true
+        }
+    }
+    
+    /**
+     * 提取基础域名（例如：从 www.plaud.ai 提取 plaud.ai）
+     */
+    private fun extractBaseDomain(host: String): String {
+        val parts = host.split(".")
+        return when {
+            parts.size >= 2 -> {
+                // 处理类似 apps.voc.ai 的情况，返回 voc.ai
+                // 或者 www.plaud.ai 返回 plaud.ai
+                parts.takeLast(2).joinToString(".")
+            }
+            else -> host
         }
     }
 
