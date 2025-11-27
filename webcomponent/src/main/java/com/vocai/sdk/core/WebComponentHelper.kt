@@ -242,21 +242,7 @@ internal class WebComponentHelper {
                     return true
                 }
                 
-                // 检查是否是外部链接，如果是则在外部浏览器中打开
-                if (isExternalUrl(url)) {
-                    try {
-                        val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        view?.context?.startActivity(intent)
-                        return true
-                    } catch (e: Exception) {
-                        LogUtil.info("Failed to open external URL: ${e.message}")
-                        // 如果无法打开，让 WebView 尝试
-                        return false
-                    }
-                }
-                
-                // 其他 HTTP/HTTPS 链接在 WebView 中打开
+                // 所有 HTTP/HTTPS 链接都在 WebView 中打开（包括外部链接）
                 return false
             }
             
@@ -288,20 +274,7 @@ internal class WebComponentHelper {
                     return true
                 }
                 
-                // 检查是否是外部链接，如果是则在外部浏览器中打开
-                if (isExternalUrl(url)) {
-                    try {
-                        val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        view?.context?.startActivity(intent)
-                        return true
-                    } catch (e: Exception) {
-                        LogUtil.info("Failed to open external URL: ${e.message}")
-                        // 如果无法打开，让 WebView 尝试
-                        return false
-                    }
-                }
-                
+                // 所有 HTTP/HTTPS 链接都在 WebView 中打开（包括外部链接）
                 return false
             }
             
@@ -465,71 +438,78 @@ internal class WebComponentHelper {
                         view: WebView?,
                         request: WebResourceRequest?
                     ): Boolean {
-                        val url = request?.url?.toString()
-                        if (url != null) {
-                            if (url.endsWith(".pdf", ignoreCase = true) || 
-                                url.contains(".pdf?", ignoreCase = true) ||
-                                url.contains(".pdf#", ignoreCase = true)) {
-                                android.os.Handler(Looper.getMainLooper()).post {
-                                    val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
-                                        this.putExtra("file", url)
-                                    }
-                                    mWebView.context.startActivity(intent)
-                                }
-                            } else if (isExternalUrl(url)) {
-                                // 外部链接在外部浏览器中打开
-                                try {
-                                    val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    mWebView.context.startActivity(intent)
-                                } catch (e: Exception) {
-                                    LogUtil.info("Failed to open external URL: ${e.message}")
-                                    // 如果无法打开，在主WebView中加载
-                                    mWebView.post {
-                                        mWebView.loadUrl(url)
-                                    }
-                                }
-                            } else {
-                                // 内部链接在主WebView中加载
+                        val url = request?.url?.toString() ?: return true
+                        
+                        // 处理特殊 scheme (tel:, mailto:, sms: 等)
+                        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                            try {
+                                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                                mWebView.context.startActivity(intent)
+                                return true
+                            } catch (e: Exception) {
+                                // 如果无法处理，在主WebView中加载
                                 mWebView.post {
                                     mWebView.loadUrl(url)
                                 }
+                                return true
                             }
+                        }
+                        
+                        // 检查是否是 PDF 文件
+                        if (url.endsWith(".pdf", ignoreCase = true) || 
+                            url.contains(".pdf?", ignoreCase = true) ||
+                            url.contains(".pdf#", ignoreCase = true)) {
+                            android.os.Handler(Looper.getMainLooper()).post {
+                                val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
+                                    this.putExtra("file", url)
+                                }
+                                mWebView.context.startActivity(intent)
+                            }
+                            return true
+                        }
+                        
+                        // 所有 HTTP/HTTPS 链接（包括外部链接）都在主WebView中加载
+                        mWebView.post {
+                            mWebView.loadUrl(url)
                         }
                         return true
                     }
 
                     @Deprecated("Deprecated in Java")
                     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                        if (url != null) {
-                            if (url.endsWith(".pdf", ignoreCase = true) || 
-                                url.contains(".pdf?", ignoreCase = true) ||
-                                url.contains(".pdf#", ignoreCase = true)) {
-                                android.os.Handler(Looper.getMainLooper()).post {
-                                    val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
-                                        this.putExtra("file", url)
-                                    }
-                                    mWebView.context.startActivity(intent)
-                                }
-                            } else if (isExternalUrl(url)) {
-                                // 外部链接在外部浏览器中打开
-                                try {
-                                    val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    mWebView.context.startActivity(intent)
-                                } catch (e: Exception) {
-                                    LogUtil.info("Failed to open external URL: ${e.message}")
-                                    // 如果无法打开，在主WebView中加载
-                                    mWebView.post {
-                                        mWebView.loadUrl(url)
-                                    }
-                                }
-                            } else {
-                                // 内部链接在主WebView中加载
+                        if (url == null) return true
+                        
+                        // 处理特殊 scheme (tel:, mailto:, sms: 等)
+                        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                            try {
+                                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                                mWebView.context.startActivity(intent)
+                                return true
+                            } catch (e: Exception) {
+                                // 如果无法处理，在主WebView中加载
                                 mWebView.post {
                                     mWebView.loadUrl(url)
                                 }
+                                return true
                             }
+                        }
+                        
+                        // 检查是否是 PDF 文件
+                        if (url.endsWith(".pdf", ignoreCase = true) || 
+                            url.contains(".pdf?", ignoreCase = true) ||
+                            url.contains(".pdf#", ignoreCase = true)) {
+                            android.os.Handler(Looper.getMainLooper()).post {
+                                val intent = Intent(mWebView.context, PdfActivity::class.java).apply {
+                                    this.putExtra("file", url)
+                                }
+                                mWebView.context.startActivity(intent)
+                            }
+                            return true
+                        }
+                        
+                        // 所有 HTTP/HTTPS 链接（包括外部链接）都在主WebView中加载
+                        mWebView.post {
+                            mWebView.loadUrl(url)
                         }
                         return true
                     }
