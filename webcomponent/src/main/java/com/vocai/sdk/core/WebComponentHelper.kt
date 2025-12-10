@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.ConsoleMessage
 import android.webkit.DownloadListener
+import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -16,6 +18,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
+import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentManager
 import com.vocai.sdk.Constants
 import com.vocai.sdk.Constants.WEB_TYPE_HIDE_LOADING
@@ -44,6 +47,9 @@ internal class WebComponentHelper {
     private var customView: View? = null
     private var customViewCallback: WebChromeClient.CustomViewCallback? = null
     private var originalSystemUiVisibility = 0
+    
+    // 文件选择器回调（用于 onShowFileChooser）
+    private var filePathCallback: ValueCallback<Array<Uri>>? = null
 
     var mBottomSheet: ChooserBottomSheet? = null
     var onFileChosen: ((NavigateMessage, String, Int, String?) -> Unit)? = null
@@ -422,6 +428,49 @@ internal class WebComponentHelper {
 
             override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                 return super.onConsoleMessage(consoleMessage)
+            }
+            
+            // 处理 HTML <input type="file"> 文件选择
+            override fun onShowFileChooser(
+                webView: WebView?,
+                filePathCallback: ValueCallback<Array<Uri>>?,
+                fileChooserParams: FileChooserParams?
+            ): Boolean {
+                // 如果之前有未完成的回调，先取消
+                this@WebComponentHelper.filePathCallback?.onReceiveValue(null)
+                this@WebComponentHelper.filePathCallback = filePathCallback
+                
+                fragmentManager?.let { fm ->
+                    mBottomSheet?.apply {
+                        onResultChosen = { file, type, fileName ->
+                            try {
+                                val uri = FileProvider.getUriForFile(
+                                    mWebView.context,
+                                    "${mWebView.context.packageName}.vocai.sdk.fileprovider",
+                                    file
+                                )
+                                this@WebComponentHelper.filePathCallback?.onReceiveValue(arrayOf(uri))
+                            } catch (e: Exception) {
+                                LogUtil.info("FileProvider error: ${e.message}")
+                                // 如果 FileProvider 失败，尝试使用 file:// URI
+                                val uri = Uri.fromFile(file)
+                                this@WebComponentHelper.filePathCallback?.onReceiveValue(arrayOf(uri))
+                            }
+                            this@WebComponentHelper.filePathCallback = null
+                            mBottomSheet?.dismiss()
+                        }
+                        onCancelled = {
+                            this@WebComponentHelper.filePathCallback?.onReceiveValue(null)
+                            this@WebComponentHelper.filePathCallback = null
+                        }
+                    }?.show(fm, TAG_CHOOSER)
+                } ?: run {
+                    // 如果没有 fragmentManager，返回 null
+                    filePathCallback?.onReceiveValue(null)
+                    this@WebComponentHelper.filePathCallback = null
+                }
+                
+                return true
             }
 
             // 处理 target="_blank" 和 window.open() 的链接

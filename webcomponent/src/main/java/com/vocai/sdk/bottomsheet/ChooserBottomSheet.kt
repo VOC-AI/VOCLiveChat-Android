@@ -61,6 +61,7 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
     private var resultFile: File? = null
 
     var onResultChosen: ((File, Int, String?) -> Unit)? = null
+    var onCancelled: (() -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -193,9 +194,15 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
         view.findViewById<TextView>(R.id.mCancelTv).apply {
             text = "key_cancel".toi18nString()
             setOnClickListener {
+                onCancelled?.invoke()
                 dismiss()
             }
         }
+    }
+    
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        onCancelled?.invoke()
     }
 
     private fun launchBehaviorPerClickTag(tag: Int) {
@@ -275,14 +282,20 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
                         onResultChosen?.invoke(it, FILE_TYPE_VIDEO, null)
                     } else {
                         LogUtil.info("unknown mimeType->$mimeType")
+                        // 未知类型也尝试作为图片处理
+                        onResultChosen?.invoke(it, FILE_TYPE_PIC, null)
                     }
                 } ?: run {
                     LogUtil.info("Failed to get file from uri: $uri")
+                    onCancelled?.invoke()
                 }
             } catch (e: Exception) {
                 LogUtil.info("Error processing gallery chosen: ${e.message}")
                 e.printStackTrace()
+                onCancelled?.invoke()
             }
+        } ?: run {
+            onCancelled?.invoke()
         }
     }
 
@@ -291,15 +304,24 @@ class ChooserBottomSheet() : BaseBottomSheetDialogFragment() {
     private fun processFileChooser(uri: Uri) {
         val contentResolver = getVocaiInstance().wrapper.getContext()?.contentResolver
         val mimeType = contentResolver?.getType(uri)
-        LogUtil.info("chosen from gallery->$uri mimeType->$mimeType")
+        LogUtil.info("chosen from file chooser->$uri mimeType->$mimeType")
         getVocaiInstance().wrapper.getContext()?.let { ctx ->
-            val fileName = getFileName(requireContext(), uri)
-            val path = readFileFromUri(requireContext(), uri, fileName ?: "")
-            if (path.isNotEmpty()) {
-                onResultChosen?.invoke(File(path), getTagByMimeType(mimeType), fileName)
-            } else {
-                LogUtil.info("invalid path:$path")
+            try {
+                val fileName = getFileName(requireContext(), uri)
+                val path = readFileFromUri(requireContext(), uri, fileName ?: "")
+                if (path.isNotEmpty()) {
+                    onResultChosen?.invoke(File(path), getTagByMimeType(mimeType), fileName)
+                } else {
+                    LogUtil.info("invalid path:$path")
+                    onCancelled?.invoke()
+                }
+            } catch (e: Exception) {
+                LogUtil.info("Error processing file chooser: ${e.message}")
+                e.printStackTrace()
+                onCancelled?.invoke()
             }
+        } ?: run {
+            onCancelled?.invoke()
         }
     }
 
